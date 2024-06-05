@@ -2,15 +2,15 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "wajidiqbal",
+    "title": "Wajid Iqbal",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "Hi there! I’m Sam (and my last name is pronounced “chick”). Professionally, I love teaching data science skills, learning and implementing inclusive pedagogical approaches, and the communities that supports both of those things. Outside of work, I’m an avid hiker, novice (but passionate) meal-maker, and I really love the color green. Poke around my website to learn more!"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
+    "text": "I’m the Data Training Coordinator at the National Center for Ecological Analysis & Synthesis (NCEAS) and a lecturer at the Bren School of Environmental Science & Management, both located at UC Santa Barbara, where I’m working to develop and teach data science training curricula for the Master of Environmental Data Science (MEDS) program and other data science initiatives across NCEAS and UCSB. I am also a co-organizer of R-Ladies Santa Barbara, a local data science group which works to promote gender diversity in the R community.\nMy background is in marine ecology / ecophysiology – I had opportunities to study coral disease in Panama and the Florida Keys as an undergrad, then temperature effects on spiny lobster metabolism and foraging behavior in Santa Barbara for my Masters degree. Since the beginning of my time in STEM, I was totally terrified of all things data / coding / data science, but thanks to a super supportive community and some really rad colleagues / instructors, I found my new path in data science education and I absolutely love it."
   }
 ]

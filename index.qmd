@@ -1,11 +1,31 @@
 ---
-title: "wajidiqbal"
+title: "Wajid Iqbal"
+image: images/my_pic.png
+toc: false
+about: 
+  template: jolla
+  image-shape: round
+  image-width: 14em
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/wajid-iqbal-a5b533186/
+      target: _blank
+    - icon: google-scholar
+      text: Google Scholar
+      href: https://scholar.google.com.pk/citations?user=WQk1k7wAAAAJ&hl=en
+      target: _blank
+    - icon: github
+      text: GitHub
+      href: https://github.com/Wajidiqbal1
+      target: _blank
+    - icon: envelope
+      text: Email
+      href: mailto:wwajidiqbal@gmail.com
 ---
 
-This is a Quarto website.
+<!-- ::: {.small-text} -->
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Hi there! I'm Sam (and my last name is pronounced "chick"). Professionally, I love teaching data science skills, learning and implementing inclusive pedagogical approaches, and the communities that supports both of those things. Outside of work, I'm an avid hiker, novice (but passionate) meal-maker, and I really love the color green. Poke around my website to learn more!
 
-```{r}
-1 + 1
-```
+<!-- ::: -->
