@@ -7,13 +7,13 @@ website:
   repo-url: https://wajidiqbal1.github.io/wajidiqbal1/
   repo-actions: [edit, issue]
   site-url: https://wajidiqbal1.github.io/wajidiqbal1/
-  favicon: images/light-sage-chick.png
+  #favicon: images/capture.png
   #google-analytics: 
     #tracking-id: "G-LW03VL0YTS" #"UA-242992767-1"
     #anonymize-ip: true
   navbar:
     title: false
-    #logo: images/logos/logo-transparent-dark.png
+    #logo: images/capture.png
     #logo-alt: "The name 'sam csik' written in green text. Above 'csik' is a dark green horizontal line, above which sits a green chick icon."
     right:
       - href: index.qmd
@@ -21,7 +21,7 @@ website:
       - about.qmd
       - href: gallery.qmd
         text: Gallery
-      - href: blogs.qmd
+      - href: posts.qmd
         text: Blogs
       - text: get in touch!
         menu:
@@ -41,7 +41,7 @@ website:
         target: _blank
   page-footer: 
     background: light
-    left: © Copyright 2024, wajid iqbal
+    left: © Copyright 2024, wajid Iqbal
     right: This website is built with {{< fa heart title="dil sy" >}}, [{{< fa brands github title="GitHub octocat logo" >}}](https://wajidiqbal1.github.io/wajidiqbal1/){target=_blank}, [{{< fa brands r-project title="R Project" >}}](https://www.r-project.org/about.html){target=_blank} and [Quarto](https://quarto.org/){target=_blank}
 
 format:

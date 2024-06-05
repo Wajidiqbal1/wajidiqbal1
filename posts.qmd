@@ -1,0 +1,9 @@
+---
+title: "My Blogs"
+subtitle: "Coming Soon till then Enjoy this dummy blog that talk about the tidyverse and what it does"
+listing: 
+  contents: posts # all Quarto docs in the `posts` directory will be included on your listing page
+  type: grid # or `default` or `table`; each type has its own set of yaml options to include
+  sort: "date desc" # can also sort on more than one field
+  categories: true # allows you to sort posts by assigned categories 
+---
