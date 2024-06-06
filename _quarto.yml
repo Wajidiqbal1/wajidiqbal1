@@ -41,8 +41,8 @@ website:
         target: _blank
   page-footer: 
     background: light
-    left: © Copyright 2024, wajid Iqbal
-    right: This website is built with {{< fa heart title="dil sy" >}}, [{{< fa brands github title="GitHub octocat logo" >}}](https://wajidiqbal1.github.io/wajidiqbal1/){target=_blank}, [{{< fa brands r-project title="R Project" >}}](https://www.r-project.org/about.html){target=_blank} and [Quarto](https://quarto.org/){target=_blank}
+    left: © Copyright 2024, Wajid Iqbal
+    right: This website is built with {{< fa heart title="pyaar sy" >}}, [{{< fa brands github title="GitHub" >}}](https://wajidiqbal1.github.io/wajidiqbal1/){target=_blank}, [{{< fa brands r-project title="R Project" >}}](https://www.r-project.org/about.html){target=_blank} and [Quarto](https://quarto.org/){target=_blank}
 
 format:
   html:
