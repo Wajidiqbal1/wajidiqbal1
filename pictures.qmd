@@ -1,0 +1,9 @@
+---
+title: "About My Gallery"
+editor: visual
+---
+# About My Gallery
+
+Welcome to my personal photo gallery! Here you'll find a curated collection of my favorite moments captured through the lens. From breathtaking landscapes to intimate portraits, each photo tells a story.
+
+Feel free to browse through the gallery and explore the various facets of my photographic journey.

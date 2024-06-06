@@ -1,3 +1,6 @@
 ---
-title: "My_gallery"
+title: "Gallery"
 ---
+Here are some of my favorite pictures:
+![Image description](one.jpeg)
+![Image description](two.jpeg)

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About</title>
+<title>My Blogs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,14 +70,72 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
             <div id="quarto-search" class="" title="Search"></div>
@@ -89,7 +149,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page"> 
+    <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
@@ -97,7 +157,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Gallery</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./posts.html"> 
+    <a class="nav-link active" href="./posts.html" aria-current="page"> 
 <span class="menu-text">Blogs</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -135,42 +195,82 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">About</h1>
-            <p class="subtitle lead">A bit more about me</p>
-                      </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta column-page">
-
-      
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    </div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MEDS">MEDS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Quarto">Quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">My Blogs</h1>
+<p class="subtitle lead">Coming Soon! till then Enjoy this dummy blog that talk about the tidyverse and what it does</p>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
 
 
 
 
 
-<p>“I’m a computational biologist (sort of) working on genomics, and I especially enjoy playing around with both bulk and single-cell RNA-seq data. I primarily use R for data wrangling and visualization within the tidyverse ecosystem. Although I’ve never used Python for any projects so far, it’s definitely on my to-do list. I’m an intermediate-level user of Unix and still pick up new shell tricks almost every month. I also have a great interest in promoting open science and reforming bioinformatics education.</p>
-<p>My background is in Biotechnology and Human Genetics. I never imagined that I would switch to a coding-centric career. I completed my bachelor’s degree in Biotechnology at <a href="https://www.iiu.edu.pk/">International Islamic University, Islamabad, Pakistan</a> in 2021 and am about to finish my master’s degree there as well. I am passionate about all aspects of bioinformatics and data science. Up until 2020, I didn’t even have a laptop, which made things more challenging. During my undergraduate studies, I received an <strong>F</strong> grade in an “Introduction to Bioinformatics course” because I knew nothing about matrix creation; I thought of it as a puzzle involving algorithms like Needleman-Wunsch and Smith-Waterman. Moreover, my mathematics skills were weak from the start—I used to memorize math questions in school just to pass tests. However, everything changed in 2021 when I attended a workshop on transcriptomics using R. Initially, I was completely terrified of anything related to data, coding, or data science, but thanks to a super supportive community, especially my supervisor <a href="https://scholar.google.com.pk/citations?hl=en&amp;user=c28ULKwAAAAJ&amp;view_op=list_works&amp;sortby=pubdate">Dr.&nbsp;Asif Mir</a>, and some excellent colleagues specifically <a href="https://www.linkedin.com/in/abrar-hussain-662272187/?original_referer=https%3A%2F%2Fwww%2Egoogle%2Ecom%2F&amp;originalSubdomain=pk">Dr.Abrar Hussain</a> and instructors, I found my path in Bioinformatics and Data Science Education. Now, I absolutely love it.”</p>
 
-
-
-</main> <!-- /main -->
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="Quarto,R,MEDS" data-listing-date-sort="1717628400000" data-listing-file-modified-sort="1717659402441" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="263">
+<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/intro_to_tidyverse/tidylogos-1.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Intro_to_tidyverse
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Quarto'); return false;">
+Quarto
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('MEDS'); return false;">
+MEDS
+</div>
+</div>
+<div class="card-text listing-description">
+A simple intro to the tidverse
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Wajid Iqbal
+</div>
+<div class="listing-date">
+Jun 6, 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -588,7 +688,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://wajidiqbal1.github.io/wajidiqbal1/edit/main/about.qmd" class="toc-action"><i class="bi bi-git"></i>Edit this page</a></li><li><a href="https://wajidiqbal1.github.io/wajidiqbal1/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://wajidiqbal1.github.io/wajidiqbal1/edit/main/posts.qmd" class="toc-action"><i class="bi bi-git"></i>Edit this page</a></li><li><a href="https://wajidiqbal1.github.io/wajidiqbal1/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This website is built with <i class="fa-solid fa-heart" title="pyaar sy" aria-label="heart"></i>, <a href="https://wajidiqbal1.github.io/wajidiqbal1/" target="_blank"><i class="fa-brands fa-github" title="GitHub" aria-label="github"></i></a>, <a href="https://www.r-project.org/about.html" target="_blank"><i class="fa-brands fa-r-project" title="R Project" aria-label="r-project"></i></a> and <a href="https://quarto.org/" target="_blank">Quarto</a></p>
 </div>

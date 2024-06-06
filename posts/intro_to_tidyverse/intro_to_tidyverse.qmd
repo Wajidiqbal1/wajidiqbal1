@@ -1,9 +1,18 @@
 ---
 title: "Intro_to_tidyverse"
+description: "A simple intro to the tidverse"
 date: "2024-06-06"
+author:
+  - name: Wajid Iqbal
+    url: https://wajidiqbal1.github.io/wajidiqbal1/
+    orcid: 0009-0002-0816-8388
+    affiliation: "International Islamic University, Islamabad"
+    affiliation-url: https://www.iiu.edu.pk/faculties/basic-and-applied-sciences-2/department-of-biotechnology-bioinformatics/
+categories: [Quarto, R, MEDS]
+image: tidylogos-1.png
 ---
 
-**Introduction to the Tidyverse**
+# **Introduction to the Tidyverse**
 
 The Tidyverse is an integral part of R programming, designed to make data science faster, easier, and more enjoyable. It consists of several R packages that share common philosophies and are designed to work seamlessly together.
 

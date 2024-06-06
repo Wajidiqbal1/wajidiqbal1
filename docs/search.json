@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "My Blogs",
+    "section": "",
+    "text": "Intro_to_tidyverse\n\n\n\nQuarto\n\n\nR\n\n\nMEDS\n\n\n\nA simple intro to the tidverse\n\n\n\nWajid Iqbal\n\n\nJun 6, 2024\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "pictures.html",
+    "href": "pictures.html",
+    "title": "About My Gallery",
+    "section": "",
+    "text": "About My Gallery\nWelcome to my personal photo gallery! Here you’ll find a curated collection of my favorite moments captured through the lens. From breathtaking landscapes to intimate portraits, each photo tells a story.\nFeel free to browse through the gallery and explore the various facets of my photographic journey."
+  },
+  {
+    "objectID": "gallery/gallery.html",
+    "href": "gallery/gallery.html",
+    "title": "Gallery",
+    "section": "",
+    "text": "Here are some of my favorite pictures:"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "“I’m a computational biologist (sort of) working on genomics, and I especially enjoy playing around with both bulk and single-cell RNA-seq data. I primarily use R for data wrangling and visualization within the tidyverse ecosystem. Although I’ve never used Python for any projects so far, it’s definitely on my to-do list. I’m an intermediate-level user of Unix and still pick up new shell tricks almost every month. I also have a great interest in promoting open science and reforming bioinformatics education.\nMy background is in Biotechnology and Human Genetics. I never imagined that I would switch to a coding-centric career. I completed my bachelor’s degree in Biotechnology at International Islamic University, Islamabad, Pakistan in 2021 and am about to finish my master’s degree there as well. I am passionate about all aspects of bioinformatics and data science. Up until 2020, I didn’t even have a laptop, which made things more challenging. During my undergraduate studies, I received an F grade in an “Introduction to Bioinformatics course” because I knew nothing about matrix creation; I thought of it as a puzzle involving algorithms like Needleman-Wunsch and Smith-Waterman. Moreover, my mathematics skills were weak from the start—I used to memorize math questions in school just to pass tests. However, everything changed in 2021 when I attended a workshop on transcriptomics using R. Initially, I was completely terrified of anything related to data, coding, or data science, but thanks to a super supportive community, especially my supervisor Dr. Asif Mir, and some excellent colleagues specifically Dr.Abrar Hussain and instructors, I found my path in Bioinformatics and Data Science Education. Now, I absolutely love it.”"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Wajid Iqbal",
+    "section": "",
+    "text": "Hi there! I’m wajid iqbal. I love Bioinformatics and R programming language. But guess what? I have recently fallen for something new—Quarto! That’s right, it’s what made me build this website.When I’m not busy in the lab or with my code, I like to run. Inspired by the ultra-marathon legend David Goggins, I tackle a tough challenge at my university’s football ground—17 rounds, and each round is 500 meters. As Goggins would put it, ‘Who’s gonna carry the boat son?’ Well, in my case, it’s me pushing those laps!”"
+  },
+  {
+    "objectID": "posts/intro_to_tidyverse/intro_to_tidyverse.html",
+    "href": "posts/intro_to_tidyverse/intro_to_tidyverse.html",
+    "title": "Intro_to_tidyverse",
+    "section": "",
+    "text": "The Tidyverse is an integral part of R programming, designed to make data science faster, easier, and more enjoyable. It consists of several R packages that share common philosophies and are designed to work seamlessly together.\n\n\nThe Tidyverse includes several key packages, each tailored for specific data science tasks:\nggplot2 for data visualization, which allows for the creation of complex plots from a data frame with a powerful and flexible system. dplyr for data manipulation, offering a concise syntax for transforming and summarizing data sets. tidyr for tidying data, ensuring that it is in a form that is easy to work with and analyze. readr for importing data, providing a fast and friendly way to read tabular data into R.\n\n\n\nThe philosophy of the Tidyverse is centered around tidy data and expressive coding. It emphasizes clarity and simplicity in syntax, enabling users to write code that is easy to read and understand at a glance. This is particularly evident in the consistent and intuitive way each package handles data operations.\n\n\n\nUtilizing the Tidyverse enhances productivity and facilitates more efficient data analysis processes. It simplifies many common tasks in data analysis and provides a coherent system that R users, from beginners to experts, can easily adopt.\n\n\n\nThe Tidyverse is more than just a collection of R packages. It is a versatile toolkit that transforms the way data scientists approach data manipulation, analysis, and visualization in R. By adopting the Tidyverse, you can streamline your workflows, produce more reliable analyses, and communicate your findings more effectively."
+  },
+  {
+    "objectID": "posts/intro_to_tidyverse/intro_to_tidyverse.html#core-packages-of-the-tidyverse",
+    "href": "posts/intro_to_tidyverse/intro_to_tidyverse.html#core-packages-of-the-tidyverse",
+    "title": "Intro_to_tidyverse",
+    "section": "",
+    "text": "The Tidyverse includes several key packages, each tailored for specific data science tasks:\nggplot2 for data visualization, which allows for the creation of complex plots from a data frame with a powerful and flexible system. dplyr for data manipulation, offering a concise syntax for transforming and summarizing data sets. tidyr for tidying data, ensuring that it is in a form that is easy to work with and analyze. readr for importing data, providing a fast and friendly way to read tabular data into R."
+  },
+  {
+    "objectID": "posts/intro_to_tidyverse/intro_to_tidyverse.html#philosophy-behind-the-tidyverse",
+    "href": "posts/intro_to_tidyverse/intro_to_tidyverse.html#philosophy-behind-the-tidyverse",
+    "title": "Intro_to_tidyverse",
+    "section": "",
+    "text": "The philosophy of the Tidyverse is centered around tidy data and expressive coding. It emphasizes clarity and simplicity in syntax, enabling users to write code that is easy to read and understand at a glance. This is particularly evident in the consistent and intuitive way each package handles data operations."
+  },
+  {
+    "objectID": "posts/intro_to_tidyverse/intro_to_tidyverse.html#why-use-the-tidyverse",
+    "href": "posts/intro_to_tidyverse/intro_to_tidyverse.html#why-use-the-tidyverse",
+    "title": "Intro_to_tidyverse",
+    "section": "",
+    "text": "Utilizing the Tidyverse enhances productivity and facilitates more efficient data analysis processes. It simplifies many common tasks in data analysis and provides a coherent system that R users, from beginners to experts, can easily adopt."
+  },
+  {
+    "objectID": "posts/intro_to_tidyverse/intro_to_tidyverse.html#conclusion",
+    "href": "posts/intro_to_tidyverse/intro_to_tidyverse.html#conclusion",
+    "title": "Intro_to_tidyverse",
+    "section": "",
+    "text": "The Tidyverse is more than just a collection of R packages. It is a versatile toolkit that transforms the way data scientists approach data manipulation, analysis, and visualization in R. By adopting the Tidyverse, you can streamline your workflows, produce more reliable analyses, and communicate your findings more effectively."
+  }
+]
