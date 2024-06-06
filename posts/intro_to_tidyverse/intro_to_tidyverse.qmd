@@ -8,7 +8,7 @@ author:
     orcid: 0009-0002-0816-8388
     affiliation: "International Islamic University, Islamabad"
     affiliation-url: https://www.iiu.edu.pk/faculties/basic-and-applied-sciences-2/department-of-biotechnology-bioinformatics/
-categories: [Quarto, R, MEDS]
+categories: [Quarto, R]
 image: tidylogos-1.png
 ---
 
