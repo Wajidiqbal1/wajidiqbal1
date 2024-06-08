@@ -7,14 +7,8 @@ website:
   repo-url: https://wajidiqbal1.github.io/wajidiqbal1/
   repo-actions: [edit, issue]
   site-url: https://wajidiqbal1.github.io/wajidiqbal1/
-  #favicon: images/capture.png
-  #google-analytics: 
-    #tracking-id: "G-LW03VL0YTS" #"UA-242992767-1"
-    #anonymize-ip: true
   navbar:
     title: false
-    #logo: images/capture.png
-    #logo-alt: "The name 'sam csik' written in green text. Above 'csik' is a dark green horizontal line, above which sits a green chick icon."
     right:
       - href: index.qmd
         text: Home
