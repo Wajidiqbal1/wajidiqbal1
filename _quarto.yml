@@ -5,7 +5,7 @@ project:
 website:
   reader-mode: true
   repo-url: https://wajidiqbal1.github.io/wajidiqbal1/
-  repo-actions: [edit, issue]
+  #repo-actions: [edit, issue]
   site-url: https://wajidiqbal1.github.io/wajidiqbal1/
   navbar:
     title: false
