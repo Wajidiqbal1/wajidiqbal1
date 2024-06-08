@@ -1,6 +1,21 @@
 ---
 title: "Gallery"
 ---
-Here are some of my favorite pictures:
-![Image description](one.jpeg)
-![Image description](two.jpeg)
+
+Welcome to my personal photo gallery! 
+Here you'll find a curated collection of my favorite moments captured through the lens. From breathtaking landscapes to portraits, each photo tells a story.Feel free to browse through the gallery and explore the various facets of my photographic journey. Here are some of my favorite pictures:
+
+::: {layout-ncol="2"}
+![Old Campus Library, IIUI, Pakistan](one.jpeg)
+
+![Muskhpuri Top one of the tourists must-visit place in Nathia Gali, Pakistan](two.jpeg)
+
+![At Muskhpuri Top, Nathia Gali, Pakistan](abrar_me.jpg)
+
+![Somewhere at unknown place in Haripur, Pakistan](only_me.jpg)
+
+![We hiked for more than 2 hours just to take this picture](scenic_img.jpg)
+
+
+![A place where i have lived for the most part of my University life](uni.jpg)
+:::

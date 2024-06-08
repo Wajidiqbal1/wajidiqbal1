@@ -5,7 +5,7 @@ toc: false
 about: 
   template: jolla
   image-shape: round
-  image-width: 18em
+  image-width: 16em
   links:
     - icon: linkedin
       text: LinkedIn
