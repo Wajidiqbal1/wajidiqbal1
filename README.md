@@ -5,5 +5,5 @@
 - Although I've never used Python for any projects so far, it’s definitely on my to-do list.
 - I’m an intermediate-level user of Unix and still pick up new shell tricks almost every month.
 - I also have a great interest in promoting open science and reforming bioinformatics education.
-  😄 Pronouns: he/him
-  📝 Personal website: https://wajidiqbal1.github.io/wajidiqbal1/
+- 😄 Pronouns: he/him
+- 📝 Personal website: https://wajidiqbal1.github.io/wajidiqbal1/
