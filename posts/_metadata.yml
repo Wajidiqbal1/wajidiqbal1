@@ -1,7 +1,16 @@
-# options specified here will apply to all posts in this folder
+# Options specified here will apply to all posts in this folder
 
-# prevents posts from re-rendering unless explicitly told to do so (for more, see https://quarto.org/docs/projects/code-execution.html#freeze)
-freeze: auto
+# freeze computational output
+freeze: true
 
-# enable banner style title blocks (see https://quarto.org/docs/authoring/title-blocks.html)
-title-block-banner: true
+# Enable banner style title blocks
+title-block-banner: false
+
+# Table of content settings
+toc: true
+toc-depth: 3
+
+page-layout: article
+comments: 
+  utterances: 
+    repo:  Wajidiqbal1/blogComments

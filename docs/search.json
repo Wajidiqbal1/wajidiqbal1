@@ -4,7 +4,7 @@
     "href": "posts.html",
     "title": "My Blogs",
     "section": "",
-    "text": "Intro_to_tidyverse\n\n\n\nQuarto\n\n\nR\n\n\ntidyverse\n\n\n\nA simple intro to the tidverse\n\n\n\nWajid Iqbal\n\n\nJun 6, 2024\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": ":::\n\n\nSubscribe\n\n\n\n\n::::\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nFrom Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)\n\n\n\n\n\n\nScrnaseq\n\n\nRNAseq\n\n\nGenomics\n\n\nSeurat\n\n\n\nDiscover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.\n\n\n\n\n\nJul 11, 2024\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nIntro_to_tidyverse\n\n\n\n\n\n\nQuarto\n\n\nR\n\n\ntidyverse\n\n\n\nA simple intro to the tidverse\n\n\n\n\n\nJun 6, 2024\n\n\n2 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "pictures.html",
@@ -68,5 +68,12 @@
     "title": "Intro_to_tidyverse",
     "section": "",
     "text": "The Tidyverse is more than just a collection of R packages. It is a versatile toolkit that transforms the way data scientists approach data manipulation, analysis, and visualization in R. By adopting the Tidyverse, you can streamline your workflows, produce more reliable analyses, and communicate your findings more effectively."
+  },
+  {
+    "objectID": "posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html",
+    "href": "posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html",
+    "title": "From Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)",
+    "section": "",
+    "text": "Welcome to the first blog in our series on single-cell RNA sequencing (scRNA-seq). In this series, we will explore the fascinating world of scRNA-seq, from its basics to advanced analysis techniques. Whether you’re a beginner or looking to deepen your understanding, this series is designed to guide you through the complexities of scRNA-seq."
   }
 ]

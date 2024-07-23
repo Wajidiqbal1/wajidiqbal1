@@ -29,3 +29,11 @@ about:
 Hi there! I'm wajid iqbal. I love Bioinformatics and R programming language. But guess what? I have recently fallen for something new—Quarto! That's right, it's what made me build this website.When I'm not busy in the lab or with my code, I like to run. Inspired by the ultra-marathon legend **David Goggins**, I tackle a tough challenge at my university’s football ground—17 rounds, and each round is 500 meters. As Goggins would put it, 'Who's gonna carry the boat son?' Well, in my case, it's me pushing those laps!"
 
 <!-- ::: -->
+
+::: {.column width="60%"}
+# 
+
+<iframe src="https://embeds.beehiiv.com/16ea8f24-5081-4a37-a0df-1f2c6db92531" data-test-id="beehiiv-embed" width="400" height="280" frameborder="0" scrolling="no" style="border-radius: 2px; border: 2px solid #e5e7eb; margin: 0; background-color: transparent;">
+
+</iframe>
+:::

@@ -2,6 +2,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html",
       "/posts/intro_to_tidyverse/intro_to_tidyverse.html"
     ]
   }

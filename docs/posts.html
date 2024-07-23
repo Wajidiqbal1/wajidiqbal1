@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -80,9 +80,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -199,15 +199,21 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Quarto">Quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tidyverse">tidyverse <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#subscribe" id="toc-subscribe" class="nav-link active" data-scroll-target="#subscribe">Subscribe</a></li>
+  </ul>
+</nav>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Genomics">Genomics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Quarto">Quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RNAseq">RNAseq <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Scrnaseq">Scrnaseq <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Seurat">Seurat <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tidyverse">tidyverse <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">My Blogs</h1>
-<p class="subtitle lead">Coming Soon! till then Enjoy this dummy blog that talk about the tidyverse and what it does</p>
+<p class="subtitle lead">Welcome to my personal blog page</p>
 </div>
 
 
@@ -224,22 +230,99 @@ window.Quarto = {
 </header>
 
 
+<p>:::</p>
+<div class="column" style="width:60%;">
+<section id="subscribe" class="level1">
+<h1>Subscribe</h1>
+<iframe id="beehiiv-form" src="https://wajidiqbals-newsletter.beehiiv.com/subscribe" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="margin: 0; border-radius: 0px !important; background-color: transparent; height: 75px; width: 90%;">
+</iframe>
+</section>
+</div>
+<p>::::</p>
+<hr>
 
 
 
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Quarto,R,tidyverse" data-listing-date-sort="1717628400000" data-listing-file-modified-sort="1717662419808" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="263">
-<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/intro_to_tidyverse/tidylogos-1.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Intro_to_tidyverse
-</h5>
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+     </select>
+  </div>
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
+</div>
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="Scrnaseq,RNAseq,Genomics,Seurat" data-listing-date-sort="1720652400000" data-listing-file-modified-sort="1721715024493" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="53">
+<div class="thumbnail">
+<p><a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"></a></p><a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external">
+<p><img src="./posts/Beginner_guide_to_single_cell_rnaseq/header.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"><strong>From Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)</strong></a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Scrnaseq'); return false;">
+Scrnaseq
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('RNAseq'); return false;">
+RNAseq
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Genomics'); return false;">
+Genomics
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Seurat'); return false;">
+Seurat
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external">Discover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external">
+<div class="listing-date">
+Jul 11, 2024
+</div>
+<div class="listing-reading-time">
+1 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="Quarto,R,tidyverse" data-listing-date-sort="1717628400000" data-listing-file-modified-sort="1717662419808" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="263">
+<div class="thumbnail">
+<p><a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external"></a></p><a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external">
+<p><img src="./posts/intro_to_tidyverse/tidylogos-1.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external">Intro_to_tidyverse</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external"></a>
+</div>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Quarto'); return false;">
 Quarto
@@ -251,20 +334,20 @@ R
 tidyverse
 </div>
 </div>
-<div class="card-text listing-description">
-A simple intro to the tidverse
+<div class="listing-description">
+<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external">A simple intro to the tidverse</a>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Wajid Iqbal
 </div>
+<div class="metadata">
+<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external">
 <div class="listing-date">
 Jun 6, 2024
 </div>
-</div>
-</div>
+<div class="listing-reading-time">
+2 min
 </div>
 </a>
+</div>
 </div>
 </div>
 <div class="listing-no-matching d-none">
@@ -688,7 +771,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://wajidiqbal1.github.io/wajidiqbal1/edit/main/posts.qmd" class="toc-action"><i class="bi bi-git"></i>Edit this page</a></li><li><a href="https://wajidiqbal1.github.io/wajidiqbal1/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    </div>
     <div class="nav-footer-right">
 <p>This website is built with <i class="fa-solid fa-heart" title="pyaar sy" aria-label="heart"></i>, <a href="https://wajidiqbal1.github.io/wajidiqbal1/" target="_blank"><i class="fa-brands fa-github" title="GitHub" aria-label="github"></i></a>, <a href="https://www.r-project.org/about.html" target="_blank"><i class="fa-brands fa-r-project" title="R Project" aria-label="r-project"></i></a> and <a href="https://quarto.org/" target="_blank">Quarto</a></p>
 </div>

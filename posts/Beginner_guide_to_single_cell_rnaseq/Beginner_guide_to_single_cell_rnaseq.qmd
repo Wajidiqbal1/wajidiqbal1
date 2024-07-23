@@ -1,0 +1,23 @@
+---
+title: "**From Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)**"
+description: "Discover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level."
+date: "2024-07-11"
+author:
+  - name: Wajid Iqbal
+    url: https://wajidiqbal1.github.io/wajidiqbal1/
+    orcid: 0009-0002-0816-8388
+    affiliation: "International Islamic University, Islamabad"
+    affiliation-url: https://www.iiu.edu.pk/faculties/basic-and-applied-sciences-2/department-of-biotechnology-bioinformatics/
+categories: [Scrnaseq,RNAseq,Genomics,Seurat]
+image: header.jpg
+---
+Welcome to the first blog in our series on single-cell RNA sequencing (scRNA-seq). In this series, we will explore the fascinating world of scRNA-seq, from its basics to advanced analysis techniques. Whether you're a beginner or looking to deepen your understanding, this series is designed to guide you through the complexities of scRNA-seq.
+
+
+
+
+
+
+
+
+
