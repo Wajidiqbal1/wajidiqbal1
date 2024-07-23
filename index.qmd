@@ -33,7 +33,10 @@ Hi there! I'm wajid iqbal. I love Bioinformatics and R programming language. But
 ::: {.column width="60%"}
 # 
 
-<iframe src="https://embeds.beehiiv.com/16ea8f24-5081-4a37-a0df-1f2c6db92531" data-test-id="beehiiv-embed" width="400" height="280" frameborder="0" scrolling="no" style="border-radius: 2px; border: 2px solid #e5e7eb; margin: 0; background-color: transparent;">
+<iframe src="https://embeds.beehiiv.com/16ea8f24-5081-4a37-a0df-1f2c6db92531" data-test-id="beehiiv-embed" width="400" height="320" frameborder="0" scrolling="no" style="border-radius: 2px; border: 2px solid #e5e7eb; margin: 0; background-color: transparent;">
 
 </iframe>
 :::
+
+```         
+```
