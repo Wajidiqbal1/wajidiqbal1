@@ -9,7 +9,6 @@ listing:
   filter-ui: true
   fields: [date, title, reading-time, description, categories,image]
   categories: true # allows you to sort posts by assigned categories
-  feed: true
 page-layout: full
 title-block-banner: false
 ---

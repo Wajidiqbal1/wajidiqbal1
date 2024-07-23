@@ -4,21 +4,21 @@
     "href": "posts.html",
     "title": "My Blogs",
     "section": "",
-    "text": ":::\n\n\nSubscribe\n\n\n\n\n::::\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nFrom Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)\n\n\n\n\n\n\nScrnaseq\n\n\nRNAseq\n\n\nGenomics\n\n\nSeurat\n\n\n\nDiscover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.\n\n\n\n\n\nJul 11, 2024\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nIntro_to_tidyverse\n\n\n\n\n\n\nQuarto\n\n\nR\n\n\ntidyverse\n\n\n\nA simple intro to the tidverse\n\n\n\n\n\nJun 6, 2024\n\n\n2 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nFrom Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)\n\n\n\n\n\n\nScrnaseq\n\n\nRNAseq\n\n\nGenomics\n\n\nSeurat\n\n\n\nDiscover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.\n\n\n\n\n\nJul 11, 2024\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nIntro_to_tidyverse\n\n\n\n\n\n\nQuarto\n\n\nR\n\n\ntidyverse\n\n\n\nA simple intro to the tidverse\n\n\n\n\n\nJun 6, 2024\n\n\n2 min\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "pictures.html",
-    "href": "pictures.html",
-    "title": "About My Gallery",
+    "objectID": "posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html",
+    "href": "posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html",
+    "title": "From Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)",
     "section": "",
-    "text": "About My Gallery\nWelcome to my personal photo gallery! Here you’ll find a curated collection of my favorite moments captured through the lens. From breathtaking landscapes to intimate portraits, each photo tells a story.\nFeel free to browse through the gallery and explore the various facets of my photographic journey."
+    "text": "Welcome to the first blog in our series on single-cell RNA sequencing (scRNA-seq). In this series, we will explore the fascinating world of scRNA-seq, from its basics to advanced analysis techniques. Whether you’re a beginner or looking to deepen your understanding, this series is designed to guide you through the complexities of scRNA-seq."
   },
   {
-    "objectID": "gallery/gallery.html",
-    "href": "gallery/gallery.html",
-    "title": "Gallery",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Wajid Iqbal",
     "section": "",
-    "text": "Welcome to my personal photo gallery! Here you’ll find a curated collection of my favorite moments captured through the lens. From breathtaking landscapes to portraits, each photo tells a story.Feel free to browse through the gallery and explore the various facets of my photographic journey. Here are some of my favorite pictures:\n\n\n\n\n\n\n\n\n\nOld Campus Library, IIUI, Pakistan\n\n\n\n\n\n\n\nMuskhpuri Top one of the tourists must-visit place in Nathia Gali, Pakistan\n\n\n\n\n\n\n\n\n\nAt Muskhpuri Top, Nathia Gali, Pakistan\n\n\n\n\n\n\n\nSomewhere at unknown place in Haripur, Pakistan\n\n\n\n\n\n\n\n\n\nWe hiked for more than 2 hours just to take this picture\n\n\n\n\n\n\n\nA place where i have lived for the most part of my University life"
+    "text": "Hi there! I’m wajid iqbal. I love Bioinformatics and R programming language. But guess what? I have recently fallen for something new—Quarto! That’s right, it’s what made me build this website.When I’m not busy in the lab or with my code, I like to run. Inspired by the ultra-marathon legend David Goggins, I tackle a tough challenge at my university’s football ground—17 rounds, and each round is 500 meters. As Goggins would put it, ‘Who’s gonna carry the boat son?’ Well, in my case, it’s me pushing those laps!”"
   },
   {
     "objectID": "about.html",
@@ -28,11 +28,11 @@
     "text": "“I’m a computational biologist (sort of) working on genomics, and I especially enjoys playing around with WES, bulk and single-cell RNA-seq data by applying different workflows and scripts on it. I primarily use R for data wrangling and visualization within the tidyverse ecosystem. Although I’ve never used Python for any projects so far, it’s definitely on my to-do list. I’m an intermediate-level user of Unix and still pick up new shell tricks almost every month. I also have a great interest in promoting open science and reforming bioinformatics education.\nMy background is in Biotechnology and Human Genetics. I never imagined that I would switch to a coding-centric Path. I completed my bachelor’s degree in Biotechnology at International Islamic University, Islamabad, Pakistan in 2021 and am about to finish my master’s degree there as well. I am passionate about all aspects of bioinformatics and data science. Up until 2020, I didn’t even have a laptop, which made things more challenging. During my undergraduate studies, I received an F grade in an “Introduction to Bioinformatics course” because I knew nothing about matrix creation; I thought of it as a puzzle involving algorithms like Needleman-Wunsch and Smith-Waterman. Moreover, my mathematics skills were weak from the start—I used to memorize math questions in school just to pass tests. However, everything changed in 2021 when I attended a workshop on transcriptomics using R. Initially, I was completely terrified of anything related to data, coding, or data science, but thanks to a super supportive community, especially my supervisor Dr. Asif Mir, and some excellent colleagues specifically Dr.Abrar Hussain and Human Molecular Genetics Lab,IIUI, I am finding my path in Bioinformatics and Data Science Education and i am absolutely loving it.”"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Wajid Iqbal",
+    "objectID": "gallery/gallery.html",
+    "href": "gallery/gallery.html",
+    "title": "Gallery",
     "section": "",
-    "text": "Hi there! I’m wajid iqbal. I love Bioinformatics and R programming language. But guess what? I have recently fallen for something new—Quarto! That’s right, it’s what made me build this website.When I’m not busy in the lab or with my code, I like to run. Inspired by the ultra-marathon legend David Goggins, I tackle a tough challenge at my university’s football ground—17 rounds, and each round is 500 meters. As Goggins would put it, ‘Who’s gonna carry the boat son?’ Well, in my case, it’s me pushing those laps!”"
+    "text": "Welcome to my personal photo gallery! Here you’ll find a curated collection of my favorite moments captured through the lens. From breathtaking landscapes to portraits, each photo tells a story.Feel free to browse through the gallery and explore the various facets of my photographic journey. Here are some of my favorite pictures:\n\n\n\n\n\n\n\n\n\nOld Campus Library, IIUI, Pakistan\n\n\n\n\n\n\n\nMuskhpuri Top one of the tourists must-visit place in Nathia Gali, Pakistan\n\n\n\n\n\n\n\n\n\nAt Muskhpuri Top, Nathia Gali, Pakistan\n\n\n\n\n\n\n\nSomewhere at unknown place in Haripur, Pakistan\n\n\n\n\n\n\n\n\n\nWe hiked for more than 2 hours just to take this picture\n\n\n\n\n\n\n\nA place where i have lived for the most part of my University life"
   },
   {
     "objectID": "posts/intro_to_tidyverse/intro_to_tidyverse.html",
@@ -68,12 +68,5 @@
     "title": "Intro_to_tidyverse",
     "section": "",
     "text": "The Tidyverse is more than just a collection of R packages. It is a versatile toolkit that transforms the way data scientists approach data manipulation, analysis, and visualization in R. By adopting the Tidyverse, you can streamline your workflows, produce more reliable analyses, and communicate your findings more effectively."
-  },
-  {
-    "objectID": "posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html",
-    "href": "posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html",
-    "title": "From Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)",
-    "section": "",
-    "text": "Welcome to the first blog in our series on single-cell RNA sequencing (scRNA-seq). In this series, we will explore the fascinating world of scRNA-seq, from its basics to advanced analysis techniques. Whether you’re a beginner or looking to deepen your understanding, this series is designed to guide you through the complexities of scRNA-seq."
   }
 ]
