@@ -14,3 +14,6 @@ page-layout: article
 comments: 
   utterances: 
     repo:  Wajidiqbal1/blogComments
+format:
+  html:
+    include-after-body: ../footer.html
