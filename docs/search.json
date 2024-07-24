@@ -11,7 +11,7 @@
     "href": "index.html",
     "title": "Wajid Iqbal",
     "section": "",
-    "text": "Hi there! I’m wajid iqbal. I love Bioinformatics and R programming language. But guess what? I have recently fallen for something new—Quarto! That’s right, it’s what made me build this website.When I’m not busy in the lab or with my code, I like to run. Inspired by the ultra-marathon legend David Goggins, I tackle a tough challenge at my university’s football ground—17 rounds, and each round is 500 meters. As Goggins would put it, ‘Who’s gonna carry the boat son?’ Well, in my case, it’s me pushing those laps!”"
+    "text": "Hi there! I’m wajid iqbal. I love Bioinformatics and R programming language. But guess what? I have recently fallen for something new—Quarto! That’s right, it’s what made me build this website.When I’m not busy in the lab or with my code, I like to run."
   },
   {
     "objectID": "about.html",
@@ -102,6 +102,6 @@
     "href": "posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html#challenges-with-scrna-seq-analysis",
     "title": "From Average to Highly Specialized: A Beginner guide to Single-Cell RNA-Seq (scRNA-seq)",
     "section": "Challenges with scRNA-seq Analysis:",
-    "text": "Challenges with scRNA-seq Analysis:\nBulk rna-seq works perfectly well if your analysis involves comparing average-cellular expression between two different conditions. Similarly it also has potential for the discovery of disease biomarkers if you are not expecting or not concerned about cellular heterogeneity in the sample. Howerver, scrna-seq with its revolutioninzig capabilities to uncover cellular heterogeneity aslo has some challenges associated with it.\n\nExperiment is costly.\nLibrary preparation is dificult.\nAnalysis of the data is complicated.\nDifficult to interpret data compare to bulk rna-seq analysis.\nLarge volume of data\nLow depth of sequencing per cell\nTechnical variability across cells/samples\nBiological variability across cells/samples More on these challenges in the next blog post which will be part 2 of this series."
+    "text": "Challenges with scRNA-seq Analysis:\nBulk rna-seq works perfectly well if your analysis involves comparing average-cellular expression between two different conditions. Similarly it also has potential for the discovery of disease biomarkers if you are not expecting or not concerned about cellular heterogeneity in the sample. Howerver, scrna-seq with its revolutioninzig capabilities to uncover cellular heterogeneity aslo has some challenges associated with it.\n\nExperiment is costly.\nLibrary preparation is dificult.\nAnalysis of the data is complicated.\nDifficult to interpret data compare to bulk rna-seq analysis.\nLarge volume of data\nLow depth of sequencing per cell\nTechnical variability across cells/samples\nBiological variability across cells/samples\n\nMore on these challenges in the next blog post which will be part 2 of this series."
   }
 ]

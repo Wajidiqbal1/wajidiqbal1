@@ -71,4 +71,5 @@ Bulk rna-seq works perfectly well if your analysis involves comparing average-ce
 -   Technical variability across cells/samples
 
 -   Biological variability across cells/samples
+
 More on these challenges in the next blog post which will be part 2 of this series.

@@ -1,6 +1,6 @@
 ---
 title: "Wajid Iqbal"
-image: images/my_pic.png
+image: images/new_one.jpeg
 toc: false
 about: 
   template: jolla
@@ -26,7 +26,7 @@ about:
 
 <!-- ::: {.small-text} -->
 
-Hi there! I'm wajid iqbal. I love Bioinformatics and R programming language. But guess what? I have recently fallen for something new—Quarto! That's right, it's what made me build this website.When I'm not busy in the lab or with my code, I like to run. Inspired by the ultra-marathon legend **David Goggins**, I tackle a tough challenge at my university’s football ground—17 rounds, and each round is 500 meters. As Goggins would put it, 'Who's gonna carry the boat son?' Well, in my case, it's me pushing those laps!"
+Hi there! I'm wajid iqbal. I love Bioinformatics and R programming language. But guess what? I have recently fallen for something new—Quarto! That's right, it's what made me build this website.When I'm not busy in the lab or with my code, I like to run.
 
 <!-- ::: -->
 
