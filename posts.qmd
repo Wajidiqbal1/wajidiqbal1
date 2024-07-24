@@ -4,10 +4,11 @@ subtitle: "Welcome to my personal blog page"
 listing: 
   contents: posts # all Quarto docs in the `posts` directory will be included on your listing page
   type: default # or `default` or `table`; each type has its own set of yaml options to include
+  image-align: right
   sort: "date desc" # can also sort on more than one field
   sort-ui: true
   filter-ui: true
-  fields: [date, title, reading-time, description, categories,image]
+  fields: [date, title, reading-time, description, categories,image,author]
   categories: true # allows you to sort posts by assigned categories
 page-layout: full
 title-block-banner: false

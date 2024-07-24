@@ -1,5 +1,5 @@
 ---
-title: "**From Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)**"
+title: "**From Average to Highly Specialized: A Beginner guide to Single-Cell RNA-Seq (scRNA-seq)**"
 description: "Discover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level."
 date: "2024-07-11"
 author:
@@ -10,14 +10,65 @@ author:
     affiliation-url: https://www.iiu.edu.pk/faculties/basic-and-applied-sciences-2/department-of-biotechnology-bioinformatics/
 categories: [Scrnaseq,RNAseq,Genomics,Seurat]
 image: header.jpg
+draft: false
 ---
+
+## Part1:
+
 Welcome to the first blog in our series on single-cell RNA sequencing (scRNA-seq). In this series, we will explore the fascinating world of scRNA-seq, from its basics to advanced analysis techniques. Whether you're a beginner or looking to deepen your understanding, this series is designed to guide you through the complexities of scRNA-seq.
 
+## **Cell being the building block of life:**
 
+Life, as we know it, is the characteristics that differentiate living from non-living things. Almost all form of life on earth shares a similar identity at microscopic level that we called, **Cells**. I am sure that all of you would have studied the famous **Cell Theory** in your School (with some modern interpretation) that says:
 
+-   All living organisms are composed of one or more cells.
+-   Cell is the basic unit of structure and organization in organisms.
+-   All cells arise from pre-existing cells.
+-   The activity of an organism depends on the total activity of independent cells.
+-   Energy flow (metabolism and biochemistry) occurs within cells.
+-   Cells contain DNA which is found specifically in the chromosome and RNA found in the cell nucleus and cytoplasm.
+-   All cells are basically the same in chemical composition in organisms of similar species.
 
+[![Figure 1: Robert Hooke’s illustration of cork cells from his book Micrographia.](hooke_cork.jpg){fig-align="center" width="400"}](https://en.wikipedia.org/wiki/File:Cork_Micrographia_Hooke.png)
 
+## **Why Single Cell ?**
 
+Complex Biology give rise to complex system, where each component of the system works in a coordinated fashion to their own special role in order to be as important as others. Before the advent of single-cell techniques we were only able to understand and analyze cell-averaged expression profile which was good but were unable to answer certain questions:
 
+-   cell-to-cell differences were missing.
+-   cellular heterogeneity completely masked.
 
+[![Figure 2: Flowchart of comparison of Bulk and Single cell-rnaseq](images/clipboard-1763345565.png){fig-align="center" width="680"}](https://www.10xgenomics.com/blog/single-cell-rna-seq-an-introductory-overview-and-tools-for-getting-started)
 
+Now with single cell one can draw a comparison not only at inter-tumor but at intra-tumor level which was not possible in case of Bulk-rnaseq. Scrna-seq based studies can be used to:
+
+-   explore which cell types are present in a tissue (Cellular Heterogeneity)
+
+-   Identify unknown/rare cell types or states
+
+-   Elucidate the changes in gene expression during differentiation processes or across time or states
+
+-   Identify genes that are differentially expressed in particular cell types between conditions (e.g. treatment or disease or treated vs untreated)
+
+-   Explore changes in expression among a cell type while incorporating spatial, regulatory, and/or protein information
+
+## **Challenges with scRNA-seq Analysis:**
+
+Bulk rna-seq works perfectly well if your analysis involves comparing average-cellular expression between two different conditions. Similarly it also has potential for the discovery of disease biomarkers if you are **not expecting or not concerned about cellular heterogeneity **in the sample. Howerver, scrna-seq with its revolutioninzig capabilities to uncover cellular heterogeneity aslo has some challenges associated with it.
+
+-   Experiment is costly.
+
+-   Library preparation is dificult.
+
+-   Analysis of the data is complicated.
+
+-   Difficult to interpret data compare to bulk rna-seq analysis.
+
+-   Large volume of data
+
+-   Low depth of sequencing per cell
+
+-   Technical variability across cells/samples
+
+-   Biological variability across cells/samples
+More on these challenges in the next blog post which will be part 2 of this series.

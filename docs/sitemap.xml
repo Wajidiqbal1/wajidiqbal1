@@ -2,11 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://wajidiqbal1.github.io/wajidiqbal1/posts.html</loc>
-    <lastmod>2024-07-23T07:52:13.916Z</lastmod>
-  </url>
-  <url>
-    <loc>https://wajidiqbal1.github.io/wajidiqbal1/posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html</loc>
-    <lastmod>2024-07-23T06:10:24.493Z</lastmod>
+    <lastmod>2024-07-24T10:03:38.935Z</lastmod>
   </url>
   <url>
     <loc>https://wajidiqbal1.github.io/wajidiqbal1/index.html</loc>
@@ -27,5 +23,9 @@
   <url>
     <loc>https://wajidiqbal1.github.io/wajidiqbal1/posts/intro_to_tidyverse/intro_to_tidyverse.html</loc>
     <lastmod>2024-06-06T08:26:59.808Z</lastmod>
+  </url>
+  <url>
+    <loc>https://wajidiqbal1.github.io/wajidiqbal1/posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html</loc>
+    <lastmod>2024-07-24T13:55:01.022Z</lastmod>
   </url>
 </urlset>

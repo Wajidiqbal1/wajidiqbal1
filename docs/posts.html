@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
@@ -244,6 +244,9 @@ window.Quarto = {
          <option value="listing-date-sort" data-direction="desc">
           Date - Newest
         </option>
+         <option value="listing-author" data-direction="asc">
+          Author
+        </option>
      </select>
   </div>
     <div class="input-group input-group-sm quarto-listing-filter">
@@ -252,7 +255,7 @@ window.Quarto = {
     </div>
 </div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="Scrnaseq,RNAseq,Genomics,Seurat" data-listing-date-sort="1720652400000" data-listing-file-modified-sort="1721715024493" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="53">
+<div class="quarto-post image-right" data-index="0" data-categories="Scrnaseq,RNAseq,Genomics,Seurat" data-listing-date-sort="1720652400000" data-listing-file-modified-sort="1721829301022" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="544">
 <div class="thumbnail">
 <p><a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"></a></p><a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external">
 <p><img src="./posts/Beginner_guide_to_single_cell_rnaseq/header.jpg" class="thumbnail-image"></p>
@@ -260,7 +263,7 @@ window.Quarto = {
 </div>
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"><strong>From Average to Highly Specialized: An Introduction to Single-Cell RNA Sequencing (scRNA-seq)</strong></a>
+<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"><strong>From Average to Highly Specialized: A Beginner guide to Single-Cell RNA-Seq (scRNA-seq)</strong></a>
 </h3>
 <div class="listing-subtitle">
 <a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"></a>
@@ -288,8 +291,11 @@ Seurat
 <div class="listing-date">
 Jul 11, 2024
 </div>
+<div class="listing-author">
+Wajid Iqbal
+</div>
 <div class="listing-reading-time">
-1 min
+3 min
 </div>
 </a>
 </div>
@@ -326,6 +332,9 @@ tidyverse
 <a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external">
 <div class="listing-date">
 Jun 6, 2024
+</div>
+<div class="listing-author">
+Wajid Iqbal
 </div>
 <div class="listing-reading-time">
 2 min
