@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-07-11">
 <meta name="description" content="Discover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.">
 
-<title>From Average to Highly Specialized: A Beginner guide to Single-Cell RNA-Seq (scRNA-seq)</title>
+<title>Quantifying Expression in Single Cell</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,24 +26,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -88,19 +88,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../gallery/gallery.html"> 
+    <a class="nav-link" href="./gallery/gallery.html"> 
 <span class="menu-text">Gallery</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../posts.html"> 
+    <a class="nav-link" href="./posts.html"> 
 <span class="menu-text">Blogs</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -138,27 +138,18 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#part1" id="toc-part1" class="nav-link active" data-scroll-target="#part1">Part1:</a></li>
-  <li><a href="#cell-being-the-building-block-of-life" id="toc-cell-being-the-building-block-of-life" class="nav-link" data-scroll-target="#cell-being-the-building-block-of-life"><strong>Cell being the building block of life:</strong></a></li>
-  <li><a href="#why-single-cell" id="toc-why-single-cell" class="nav-link" data-scroll-target="#why-single-cell"><strong>Why Single Cell ?</strong></a></li>
-  <li><a href="#challenges-with-scrna-seq-analysis" id="toc-challenges-with-scrna-seq-analysis" class="nav-link" data-scroll-target="#challenges-with-scrna-seq-analysis"><strong>Challenges with scRNA-seq Analysis:</strong></a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>From Average to Highly Specialized: A Beginner guide to Single-Cell RNA-Seq (scRNA-seq)</strong></h1>
+<h1 class="title"><strong>Quantifying Expression in Single Cell</strong></h1>
   <div class="quarto-categories">
     <div class="quarto-category">Scrnaseq</div>
     <div class="quarto-category">RNAseq</div>
@@ -173,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </div>
 
-<div class="quarto-title-meta-author">
+<div class="quarto-title-meta-author column-page">
   <div class="quarto-title-meta-heading">Author</div>
   <div class="quarto-title-meta-heading">Affiliation</div>
   
@@ -189,7 +180,7 @@ ul.task-list li input[type="checkbox"] {
       </div>
   </div>
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
       
     <div>
@@ -207,99 +198,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="part1" class="level2">
-<h2 class="anchored" data-anchor-id="part1">Part1:</h2>
-<p>Welcome to the first blog in our series on single-cell RNA sequencing (scRNA-seq). In this series, we will explore the fascinating world of scRNA-seq, from its basics to advanced analysis techniques. Whether you’re a beginner or looking to deepen your understanding, this series is designed to guide you through the complexities of scRNA-seq.</p>
-</section>
-<section id="cell-being-the-building-block-of-life" class="level2">
-<h2 class="anchored" data-anchor-id="cell-being-the-building-block-of-life"><strong>Cell being the building block of life:</strong></h2>
-<p>Life, as we know it, is the characteristics that differentiate living from non-living things. Almost all form of life on earth shares a similar identity at microscopic level that we called, <strong>Cells</strong>. I am sure that all of you would have studied the famous <strong>Cell Theory</strong> in your School (with some modern interpretation) that says:</p>
-<ul>
-<li>All living organisms are composed of one or more cells.</li>
-<li>Cell is the basic unit of structure and organization in organisms.</li>
-<li>All cells arise from pre-existing cells.</li>
-<li>The activity of an organism depends on the total activity of independent cells.</li>
-<li>Energy flow (metabolism and biochemistry) occurs within cells.</li>
-<li>Cells contain DNA which is found specifically in the chromosome and RNA found in the cell nucleus and cytoplasm.</li>
-<li>All cells are basically the same in chemical composition in organisms of similar species.</li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="https://en.wikipedia.org/wiki/File:Cork_Micrographia_Hooke.png"><img src="hooke_cork.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400" alt="Figure 1: Robert Hooke’s illustration of cork cells from his book Micrographia."></a></p>
-</figure>
-</div>
-<figcaption>Figure 1: Robert Hooke’s illustration of cork cells from his book Micrographia.</figcaption>
-</figure>
-</div>
-</section>
-<section id="why-single-cell" class="level2">
-<h2 class="anchored" data-anchor-id="why-single-cell"><strong>Why Single Cell ?</strong></h2>
-<p>Complex Biology give rise to complex system, where each component of the system works in a coordinated fashion to their own special role in order to be as important as others. Before the advent of single-cell techniques we were only able to understand and analyze cell-averaged expression profile which was good but were unable to answer certain questions:</p>
-<ul>
-<li>cell-to-cell differences were missing.</li>
-<li>cellular heterogeneity completely masked.</li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="https://www.10xgenomics.com/blog/single-cell-rna-seq-an-introductory-overview-and-tools-for-getting-started"><img src="images/clipboard-1763345565.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="680" alt="Figure 2: Flowchart of comparison of Bulk and Single cell-rnaseq"></a></p>
-</figure>
-</div>
-<figcaption>Figure 2: Flowchart of comparison of Bulk and Single cell-rnaseq</figcaption>
-</figure>
-</div>
-<p>Now with single cell one can draw a comparison not only at inter-tumor but at intra-tumor level which was not possible in case of Bulk-rnaseq. Scrna-seq based studies can be used to:</p>
-<ul>
-<li><p>Explore which cell types are present in a tissue (Cellular Heterogeneity)</p></li>
-<li><p>Identify unknown/rare cell types or states</p></li>
-<li><p>Elucidate the changes in gene expression during differentiation processes or across time or states</p></li>
-<li><p>Identify genes that are differentially expressed in particular cell types between conditions (e.g.&nbsp;treatment or disease or treated vs untreated)</p></li>
-<li><p>Explore changes in expression among a cell type while incorporating spatial, regulatory, and/or protein information</p></li>
-</ul>
-</section>
-<section id="challenges-with-scrna-seq-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="challenges-with-scrna-seq-analysis"><strong>Challenges with scRNA-seq Analysis:</strong></h2>
-<p>Bulk RNA-seq works perfectly well if your analysis involves comparing average-cellular expression between two different conditions. Similarly it also has potential for the discovery of disease biomarkers if you are <strong>not expecting or not concerned about cellular heterogeneity </strong>in the sample. However, scrna-seq with its revolutionizing capabilities to uncover cellular heterogeneity also has some challenges associated with it.</p>
-<ul>
-<li><p>Experiment is costly.</p></li>
-<li><p>Library preparation is difficult.</p></li>
-<li><p>Analysis of the data is complicated.</p></li>
-<li><p>Difficult to interpret data compare to bulk rna-seq analysis.</p></li>
-<li><p>Large volume of data</p></li>
-<li><p>Low depth of sequencing per cell</p></li>
-<li><p>Technical variability across cells/samples</p></li>
-<li><p>Biological variability across cells/samples</p></li>
-</ul>
-<p>More on these challenges in the next blog post which will be part 2 of this series.</p>
 
 
-</section>
 
 </main> <!-- /main -->
-<div>
-
-<hr>
-
-
-
-<p> Thank you for reading this post,If you enjoyed this blog post, then don't miss out on any future posts by subscribing to my email newsletter. </p>
-
-
-
-<iframe src="https://embeds.beehiiv.com/16ea8f24-5081-4a37-a0df-1f2c6db92531" data-test-id="beehiiv-embed" width="400" height="320" frameborder="0" scrolling="no" style="border-radius: 2px; border: 2px solid #e5e7eb; margin: 0; background-color: transparent;">
-
-
-
-</iframe>
-
-
-
-<hr>
-
-</div>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -708,8 +610,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<script src="https://utteranc.es/client.js" repo="Wajidiqbal1/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 <footer class="footer">

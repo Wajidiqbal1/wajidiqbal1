@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wajid Iqbal">
+<meta name="description" content="Measuring gene expression levels within individual cells.">
+
+<title>Quantifying Expression in Single Cell</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../gallery/gallery.html"> 
+<span class="menu-text">Gallery</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Blogs</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-in-touch" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">get in touch!</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-get-in-touch">    
+        <li>
+    <a class="dropdown-item" href="https://www.linkedin.com/in/wajid-iqbal-a5b533186/" target="_blank"><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="dropdown-text">LinkedIn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="mailto:wwajidiqbal@gmail.com"><i class="bi bi-envelope" role="img">
+</i> 
+ <span class="dropdown-text">email</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Wajidiqbal1/wajidiqbal1" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part2" id="toc-part2" class="nav-link active" data-scroll-target="#part2"><strong>Part2:</strong></a></li>
+  <li><a href="#transcript-quantification" id="toc-transcript-quantification" class="nav-link" data-scroll-target="#transcript-quantification"><strong>Transcript Quantification:</strong></a></li>
+  <li><a href="#full-length" id="toc-full-length" class="nav-link" data-scroll-target="#full-length"><strong>Full length:</strong></a></li>
+  <li><a href="#tag-based-protocols" id="toc-tag-based-protocols" class="nav-link" data-scroll-target="#tag-based-protocols"><strong>Tag-based Protocols:</strong></a></li>
+  <li><a href="#raw-data-to-count-matrix" id="toc-raw-data-to-count-matrix" class="nav-link" data-scroll-target="#raw-data-to-count-matrix"><strong>Raw data to count-matrix:</strong></a></li>
+  <li><a href="#quality-check" id="toc-quality-check" class="nav-link" data-scroll-target="#quality-check"><strong>Quality Check:</strong></a></li>
+  <li><a href="#mapping" id="toc-mapping" class="nav-link" data-scroll-target="#mapping"><strong>Mapping:</strong></a></li>
+  <li><a href="#mapping-using-reference-genome" id="toc-mapping-using-reference-genome" class="nav-link" data-scroll-target="#mapping-using-reference-genome"><strong>Mapping using reference Genome:</strong></a></li>
+  <li><a href="#mapping-using-reference-transcriptome" id="toc-mapping-using-reference-transcriptome" class="nav-link" data-scroll-target="#mapping-using-reference-transcriptome"><strong>Mapping using Reference Transcriptome:</strong></a></li>
+  <li><a href="#mapping-against-an-augmented-transcriptome" id="toc-mapping-against-an-augmented-transcriptome" class="nav-link" data-scroll-target="#mapping-against-an-augmented-transcriptome"><strong>Mapping against an augmented transcriptome:</strong></a></li>
+  <li><a href="#considerations-regarding-mapping" id="toc-considerations-regarding-mapping" class="nav-link" data-scroll-target="#considerations-regarding-mapping"><strong>Considerations Regarding Mapping:</strong></a></li>
+  <li><a href="#what-other-things-that-could-possibly-go-wrong" id="toc-what-other-things-that-could-possibly-go-wrong" class="nav-link" data-scroll-target="#what-other-things-that-could-possibly-go-wrong"><strong>What other things that could possibly go wrong😧:</strong></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><strong>Quantifying Expression in Single Cell</strong></h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Scrnaseq</div>
+    <div class="quarto-category">RNAseq</div>
+    <div class="quarto-category">Genomics</div>
+    <div class="quarto-category">Seurat</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Measuring gene expression levels within individual cells.
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://wajidiqbal1.github.io/wajidiqbal1/">Wajid Iqbal</a> <a href="https://orcid.org/0009-0002-0816-8388" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.iiu.edu.pk/faculties/basic-and-applied-sciences-2/department-of-biotechnology-bioinformatics/">
+            International Islamic University, Islamabad
+            </a>
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="part2" class="level2">
+<h2 class="anchored" data-anchor-id="part2"><strong>Part2:</strong></h2>
+<p><strong>Disclaimer:</strong> ⚠️ This post may be lengthy for some readers, so please adjust accordingly. Welcome to the second blog in our series on single-cell RNA sequencing (scRNA-seq). In this blog, we will discuss various transcript quantification methods and some of the problems associated with quantification. Most of the content discussed here relates to the droplet-based method of scRNA-seq.</p>
+</section>
+<section id="transcript-quantification" class="level2">
+<h2 class="anchored" data-anchor-id="transcript-quantification"><strong>Transcript Quantification:</strong></h2>
+<p>Transcript quantification is the process of measuring the abundance of RNA transcripts (messenger RNA or mRNA) within a sample. In the context of single-cell RNA sequencing (scRNA-seq), it involves determining the number of RNA molecules corresponding to each gene in individual cells.The general workflow for single cell library construction is shown in <a href="#fig-library" class="quarto-xref">Figure&nbsp;1</a></p>
+<div id="fig-library" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-library-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="general_workflow.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-library-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: General Workflow for single cell Library Construction.
+</figcaption>
+</figure>
+</div>
+<p>There are two major version of Transcript Quantification: <strong>Full-length and tag-based.</strong></p>
+</section>
+<section id="full-length" class="level2">
+<h2 class="anchored" data-anchor-id="full-length"><strong>Full length:</strong></h2>
+<ul>
+<li>This method makes an attempt to cover the whole transcript with sequencing reads.</li>
+</ul>
+<div class="callout callout-style-simple callout-important no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Based on the type of methods used for transcript quantification, can have a serious impact on the number of genes captured, so try to asses all the available methods and use the approach that best suits your study.</p>
+</div>
+</div>
+</div>
+<ul>
+<li><p>Only plate-based protocols can perform Full-length sequencing.</p></li>
+<li><p>Full-length protocols do not always ensure even coverage of transcripts, leading to potential biases in specific regions across the gene body.</p></li>
+<li><p>The only advantage that full length based approach provides, is the detection of <strong>splice site variants.</strong></p></li>
+</ul>
+</section>
+<section id="tag-based-protocols" class="level2">
+<h2 class="anchored" data-anchor-id="tag-based-protocols"><strong>Tag-based Protocols:</strong></h2>
+<p>Tag-based protocols sequence only the 3’ or 5’ ends of transcripts, which limits full gene coverage and complicates the alignment of reads to specific transcripts and the differentiation of isoforms. However, these protocols enable the use of unique molecular identifiers (UMIs), which help correct biases in transcript amplification. Although this is beyond the scope of this blog to discuss in detail each approach and platform used for sc-RNASeq but down below is a summarized table that contains all the information related to the platform name and separation methods used in each approach.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Want to see the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>scRNA_seq_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Platform_Name =</span> <span class="fu">c</span>(<span class="st">"VASA-seq"</span>, <span class="st">"Smart-seq3"</span>, <span class="st">"DNBelabC4"</span>, <span class="st">"Seq-Well"</span>, <span class="st">"MATQ-seq"</span>, <span class="st">"10× Genomics"</span>, <span class="st">"Cyto-Seq"</span>, <span class="st">"SC3-seq"</span>, <span class="st">"inDrop-seq"</span>, <span class="st">"Drop-seq"</span>, <span class="st">"MARS-seq"</span>, <span class="st">"STRT-seq"</span>, <span class="st">"Quartz-seq"</span>, <span class="st">"Fluidigm C1"</span>, <span class="st">"Smart-seq2"</span>, <span class="st">"Smart-seq"</span>, <span class="st">"CEL-seq"</span>, <span class="st">"Tang-2009"</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Separation_Method =</span> <span class="fu">c</span>(<span class="st">"FANS"</span>, <span class="st">"Microfluidics"</span>, <span class="st">"Microfluidics"</span>, <span class="st">"Microfluidics"</span>, <span class="st">"FACS"</span>, <span class="st">"Microfluidics"</span>, <span class="st">"Microfluidics"</span>, <span class="st">"Micromanipulation"</span>, <span class="st">"Microfluidics"</span>, <span class="st">"Microfluidics"</span>, <span class="st">"FACS"</span>, <span class="st">"Microfluidics"</span>, <span class="st">"FACS"</span>, <span class="st">"Microfluidics"</span>, <span class="st">"FACS"</span>, <span class="st">"FACS"</span>, <span class="st">"FACS"</span>, <span class="st">"FACS"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Amplification_Method =</span> <span class="fu">c</span>(<span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"IVT"</span>, <span class="st">"PCR"</span>, <span class="st">"IVT"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"PCR"</span>, <span class="st">"IVT"</span>, <span class="st">"PCR"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Using_UMI =</span> <span class="fu">c</span>(<span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"YES"</span>, <span class="st">"NO"</span>, <span class="st">"YES"</span>, <span class="st">"NO"</span>, <span class="st">"NO"</span>, <span class="st">"NO"</span>, <span class="st">"YES"</span>, <span class="st">"NO"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Amplification_Range =</span> <span class="fu">c</span>(<span class="st">"All transcripts"</span>, <span class="st">"5′ end"</span>, <span class="st">"All transcripts"</span>, <span class="st">"3′ end"</span>, <span class="st">"All transcripts"</span>, <span class="st">"3′ end"</span>, <span class="st">"3′ end"</span>, <span class="st">"3′ end"</span>, <span class="st">"3′ end"</span>, <span class="st">"3′ end"</span>, <span class="st">"3′ end"</span>, <span class="st">"All transcripts"</span>, <span class="st">"3′ end"</span>, <span class="st">"All transcripts"</span>, <span class="st">"All transcripts"</span>, <span class="st">"All transcripts"</span>, <span class="st">"3′ end"</span>, <span class="st">"3′ end"</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Advantages =</span> <span class="fu">c</span>(<span class="st">"Low cost and accurate dosing"</span>, <span class="st">"High sensitivity"</span>, <span class="st">"Precise quantification"</span>, <span class="st">"Low cost and precise quantification"</span>, <span class="st">"Precise quantification"</span>, <span class="st">"High cell capture efficiency, fast cycle time, high cell suitability, and reproducibility"</span>, <span class="st">"Low cost and high throughput"</span>, <span class="st">"Good reproducibility and accurate quantification"</span>, <span class="st">"Low cost and linear amplification"</span>, <span class="st">"Low cost and high throughput"</span>, <span class="st">"High specificity"</span>, <span class="st">"Accurate positioning of transcripts at the 5′ end to reduce amplification bias"</span>, <span class="st">"High sensitivity, reproducibility, and operational simplicity"</span>, <span class="st">"Simple process"</span>, <span class="st">"Full-length cDNA detects structural and RNA shear variants"</span>, <span class="st">"High sensitivity to reduce the rates of nucleic acid loss"</span>, <span class="st">"Good reproducibility and highly sensitive"</span>, <span class="st">"Good reproducibility"</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Disadvantages =</span> <span class="fu">c</span>(<span class="st">"/"</span>, <span class="st">"Time-consuming"</span>, <span class="st">"/"</span>, <span class="st">"Unsuitable for variable splicing and allelic expression"</span>, <span class="st">"Low cell throughput"</span>, <span class="st">"Sequencing can be performed only for the 3′ end"</span>, <span class="st">"Cross-contamination between RNAs"</span>, <span class="st">"Recognize DNA at the 3′ end"</span>, <span class="st">"Long operating time and high initial cell concentration"</span>, <span class="st">"Low cell capture rate"</span>, <span class="st">"Low amplification efficiency"</span>, <span class="st">"Low sensitivity, only available for identification of 5′ end DNA"</span>, <span class="st">"Higher noise levels"</span>, <span class="st">"High cost and low throughput"</span>, <span class="st">"High cost, low throughput, and time-consuming"</span>, <span class="st">"Low throughput and the existence of transcript length bias"</span>, <span class="st">"Low throughput and amplification efficiency, library biased toward the 3′ end of the gene"</span>, <span class="st">"High cost and low throughput"</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Release_Date =</span> <span class="fu">c</span>(<span class="st">"2022"</span>, <span class="st">"2020"</span>, <span class="st">"2019"</span>, <span class="st">"2017"</span>, <span class="st">"2017"</span>, <span class="st">"2016"</span>, <span class="st">"2015"</span>, <span class="st">"2015"</span>, <span class="st">"2015"</span>, <span class="st">"2015"</span>, <span class="st">"2014"</span>, <span class="st">"2014"</span>, <span class="st">"2013"</span>, <span class="st">"2013"</span>, <span class="st">"2013"</span>, <span class="st">"2012"</span>, <span class="st">"2012"</span>, <span class="st">"2009"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>scRNA_seq_table <span class="ot">&lt;-</span> <span class="fu">gt</span>(scRNA_seq_data) <span class="sc">%&gt;%</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">"**Comparison of Different ScRNA-Seq Technology Approaches**"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">Platform_Name =</span> <span class="st">"Platform Name"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">Separation_Method =</span> <span class="st">"Separation Method"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">Amplification_Method =</span> <span class="st">"Amplification Method"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">Using_UMI =</span> <span class="st">"Using UMI"</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Amplification_Range =</span> <span class="st">"Amplification Range"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">Advantages =</span> <span class="st">"Advantages"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">Disadvantages =</span> <span class="st">"Disadvantages"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Release_Date =</span> <span class="st">"Release Date"</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a> <span class="fu">tab_style</span>(</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>(<span class="fu">everything</span>())</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="at">source_note =</span> <span class="fu">md</span>(<span class="st">"**Reference**: Shou wang et al., The Evolution of Single-Cell RNA Sequencing Technology and Application: Progress and Perspectives."</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">6</span>, <span class="at">color =</span><span class="st">'gray'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(<span class="at">heading.align =</span> <span class="st">'center'</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>              <span class="at">heading.background.color =</span> <span class="st">'darkgreen'</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>              <span class="at">heading.title.font.size =</span> <span class="fu">px</span>(<span class="dv">20</span>))</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>scRNA_seq_table <span class="sc">|&gt;</span> <span class="fu">as_raw_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="qhxusuxslb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  
+  
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false" data-bgcolor="#FFFFFF">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead style="border-style: none;">
+<tr class="header gt_heading" style="border-style: none; background-color: #006400; text-align: center; border-bottom-color: #FFFFFF; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;" data-bgcolor="#006400" data-align="center">
+<th colspan="8" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="text-align: center; border-style: none; color: #FFFFFF; font-size: 20px; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; background-color: #006400; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #5F5F5F; font-weight: normal;" data-bgcolor="#006400"><p><strong>Comparison of Different ScRNA-Seq Technology Approaches</strong></p></th>
+</tr>
+<tr class="odd gt_col_headings" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #5F5F5F; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #5F5F5F; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
+<th id="Platform Name" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; border-style: none; color: #FFFFFF; background-color: #5F5F5F; font-size: 100%; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; font-weight: bold;" scope="col" data-bgcolor="#5F5F5F" data-valign="bottom">Platform Name</th>
+<th id="Separation Method" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; border-style: none; color: #FFFFFF; background-color: #5F5F5F; font-size: 100%; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; font-weight: bold;" scope="col" data-bgcolor="#5F5F5F" data-valign="bottom">Separation Method</th>
+<th id="Amplification Method" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; border-style: none; color: #FFFFFF; background-color: #5F5F5F; font-size: 100%; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; font-weight: bold;" scope="col" data-bgcolor="#5F5F5F" data-valign="bottom">Amplification Method</th>
+<th id="Using UMI" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; border-style: none; color: #FFFFFF; background-color: #5F5F5F; font-size: 100%; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; font-weight: bold;" scope="col" data-bgcolor="#5F5F5F" data-valign="bottom">Using UMI</th>
+<th id="Amplification Range" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; border-style: none; color: #FFFFFF; background-color: #5F5F5F; font-size: 100%; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; font-weight: bold;" scope="col" data-bgcolor="#5F5F5F" data-valign="bottom">Amplification Range</th>
+<th id="Advantages" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; border-style: none; color: #FFFFFF; background-color: #5F5F5F; font-size: 100%; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; font-weight: bold;" scope="col" data-bgcolor="#5F5F5F" data-valign="bottom">Advantages</th>
+<th id="Disadvantages" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="text-align: left; border-style: none; color: #FFFFFF; background-color: #5F5F5F; font-size: 100%; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; font-weight: bold;" scope="col" data-bgcolor="#5F5F5F" data-valign="bottom">Disadvantages</th>
+<th id="Release Date" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="text-align: right; border-style: none; color: #FFFFFF; background-color: #5F5F5F; font-size: 100%; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; font-variant-numeric: tabular-nums; font-weight: bold;" scope="col" data-bgcolor="#5F5F5F" data-valign="bottom">Release Date</th>
+</tr>
+</thead>
+<tbody class="gt_table_body" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #5F5F5F; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #5F5F5F;">
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_left" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">VASA-seq</td>
+<td class="gt_row gt_left" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">FANS</td>
+<td class="gt_row gt_left" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">PCR</td>
+<td class="gt_row gt_left" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">YES</td>
+<td class="gt_row gt_left" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">All transcripts</td>
+<td class="gt_row gt_left" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Low cost and accurate dosing</td>
+<td class="gt_row gt_left" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">/</td>
+<td class="gt_row gt_right" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; font-variant-numeric: tabular-nums;" data-valign="middle">2022</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_left gt_striped" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Smart-seq3</td>
+<td class="gt_row gt_left gt_striped" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Microfluidics</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">PCR</td>
+<td class="gt_row gt_left gt_striped" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">YES</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">5′ end</td>
+<td class="gt_row gt_left gt_striped" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">High sensitivity</td>
+<td class="gt_row gt_left gt_striped" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Time-consuming</td>
+<td class="gt_row gt_right gt_striped" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4; font-variant-numeric: tabular-nums;" data-valign="middle" data-bgcolor="#F4F4F4">2020</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_left" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">DNBelabC4</td>
+<td class="gt_row gt_left" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Microfluidics</td>
+<td class="gt_row gt_left" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">PCR</td>
+<td class="gt_row gt_left" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">YES</td>
+<td class="gt_row gt_left" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">All transcripts</td>
+<td class="gt_row gt_left" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Precise quantification</td>
+<td class="gt_row gt_left" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">/</td>
+<td class="gt_row gt_right" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; font-variant-numeric: tabular-nums;" data-valign="middle">2019</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_left gt_striped" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Seq-Well</td>
+<td class="gt_row gt_left gt_striped" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Microfluidics</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">PCR</td>
+<td class="gt_row gt_left gt_striped" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">YES</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">3′ end</td>
+<td class="gt_row gt_left gt_striped" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Low cost and precise quantification</td>
+<td class="gt_row gt_left gt_striped" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Unsuitable for variable splicing and allelic expression</td>
+<td class="gt_row gt_right gt_striped" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4; font-variant-numeric: tabular-nums;" data-valign="middle" data-bgcolor="#F4F4F4">2017</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_left" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">MATQ-seq</td>
+<td class="gt_row gt_left" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">FACS</td>
+<td class="gt_row gt_left" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">PCR</td>
+<td class="gt_row gt_left" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">YES</td>
+<td class="gt_row gt_left" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">All transcripts</td>
+<td class="gt_row gt_left" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Precise quantification</td>
+<td class="gt_row gt_left" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Low cell throughput</td>
+<td class="gt_row gt_right" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; font-variant-numeric: tabular-nums;" data-valign="middle">2017</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_left gt_striped" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">10× Genomics</td>
+<td class="gt_row gt_left gt_striped" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Microfluidics</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">PCR</td>
+<td class="gt_row gt_left gt_striped" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">YES</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">3′ end</td>
+<td class="gt_row gt_left gt_striped" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">High cell capture efficiency, fast cycle time, high cell suitability, and reproducibility</td>
+<td class="gt_row gt_left gt_striped" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Sequencing can be performed only for the 3′ end</td>
+<td class="gt_row gt_right gt_striped" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4; font-variant-numeric: tabular-nums;" data-valign="middle" data-bgcolor="#F4F4F4">2016</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_left" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Cyto-Seq</td>
+<td class="gt_row gt_left" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Microfluidics</td>
+<td class="gt_row gt_left" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">PCR</td>
+<td class="gt_row gt_left" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">YES</td>
+<td class="gt_row gt_left" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">3′ end</td>
+<td class="gt_row gt_left" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Low cost and high throughput</td>
+<td class="gt_row gt_left" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Cross-contamination between RNAs</td>
+<td class="gt_row gt_right" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; font-variant-numeric: tabular-nums;" data-valign="middle">2015</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_left gt_striped" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">SC3-seq</td>
+<td class="gt_row gt_left gt_striped" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Micromanipulation</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">PCR</td>
+<td class="gt_row gt_left gt_striped" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">YES</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">3′ end</td>
+<td class="gt_row gt_left gt_striped" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Good reproducibility and accurate quantification</td>
+<td class="gt_row gt_left gt_striped" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Recognize DNA at the 3′ end</td>
+<td class="gt_row gt_right gt_striped" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4; font-variant-numeric: tabular-nums;" data-valign="middle" data-bgcolor="#F4F4F4">2015</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_left" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">inDrop-seq</td>
+<td class="gt_row gt_left" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Microfluidics</td>
+<td class="gt_row gt_left" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">IVT</td>
+<td class="gt_row gt_left" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">YES</td>
+<td class="gt_row gt_left" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">3′ end</td>
+<td class="gt_row gt_left" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Low cost and linear amplification</td>
+<td class="gt_row gt_left" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Long operating time and high initial cell concentration</td>
+<td class="gt_row gt_right" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; font-variant-numeric: tabular-nums;" data-valign="middle">2015</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_left gt_striped" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Drop-seq</td>
+<td class="gt_row gt_left gt_striped" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Microfluidics</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">PCR</td>
+<td class="gt_row gt_left gt_striped" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">YES</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">3′ end</td>
+<td class="gt_row gt_left gt_striped" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Low cost and high throughput</td>
+<td class="gt_row gt_left gt_striped" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Low cell capture rate</td>
+<td class="gt_row gt_right gt_striped" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4; font-variant-numeric: tabular-nums;" data-valign="middle" data-bgcolor="#F4F4F4">2015</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_left" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">MARS-seq</td>
+<td class="gt_row gt_left" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">FACS</td>
+<td class="gt_row gt_left" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">IVT</td>
+<td class="gt_row gt_left" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">YES</td>
+<td class="gt_row gt_left" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">3′ end</td>
+<td class="gt_row gt_left" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">High specificity</td>
+<td class="gt_row gt_left" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Low amplification efficiency</td>
+<td class="gt_row gt_right" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; font-variant-numeric: tabular-nums;" data-valign="middle">2014</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_left gt_striped" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">STRT-seq</td>
+<td class="gt_row gt_left gt_striped" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Microfluidics</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">PCR</td>
+<td class="gt_row gt_left gt_striped" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">NO</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">All transcripts</td>
+<td class="gt_row gt_left gt_striped" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Accurate positioning of transcripts at the 5′ end to reduce amplification bias</td>
+<td class="gt_row gt_left gt_striped" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Low sensitivity, only available for identification of 5′ end DNA</td>
+<td class="gt_row gt_right gt_striped" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4; font-variant-numeric: tabular-nums;" data-valign="middle" data-bgcolor="#F4F4F4">2014</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_left" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Quartz-seq</td>
+<td class="gt_row gt_left" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">FACS</td>
+<td class="gt_row gt_left" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">PCR</td>
+<td class="gt_row gt_left" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">YES</td>
+<td class="gt_row gt_left" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">3′ end</td>
+<td class="gt_row gt_left" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">High sensitivity, reproducibility, and operational simplicity</td>
+<td class="gt_row gt_left" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Higher noise levels</td>
+<td class="gt_row gt_right" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; font-variant-numeric: tabular-nums;" data-valign="middle">2013</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_left gt_striped" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Fluidigm C1</td>
+<td class="gt_row gt_left gt_striped" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Microfluidics</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">PCR</td>
+<td class="gt_row gt_left gt_striped" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">NO</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">All transcripts</td>
+<td class="gt_row gt_left gt_striped" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Simple process</td>
+<td class="gt_row gt_left gt_striped" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">High cost and low throughput</td>
+<td class="gt_row gt_right gt_striped" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4; font-variant-numeric: tabular-nums;" data-valign="middle" data-bgcolor="#F4F4F4">2013</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_left" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Smart-seq2</td>
+<td class="gt_row gt_left" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">FACS</td>
+<td class="gt_row gt_left" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">PCR</td>
+<td class="gt_row gt_left" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">NO</td>
+<td class="gt_row gt_left" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">All transcripts</td>
+<td class="gt_row gt_left" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Full-length cDNA detects structural and RNA shear variants</td>
+<td class="gt_row gt_left" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">High cost, low throughput, and time-consuming</td>
+<td class="gt_row gt_right" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; font-variant-numeric: tabular-nums;" data-valign="middle">2013</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_left gt_striped" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Smart-seq</td>
+<td class="gt_row gt_left gt_striped" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">FACS</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">PCR</td>
+<td class="gt_row gt_left gt_striped" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">NO</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">All transcripts</td>
+<td class="gt_row gt_left gt_striped" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">High sensitivity to reduce the rates of nucleic acid loss</td>
+<td class="gt_row gt_left gt_striped" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Low throughput and the existence of transcript length bias</td>
+<td class="gt_row gt_right gt_striped" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4; font-variant-numeric: tabular-nums;" data-valign="middle" data-bgcolor="#F4F4F4">2012</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_left" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">CEL-seq</td>
+<td class="gt_row gt_left" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">FACS</td>
+<td class="gt_row gt_left" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">IVT</td>
+<td class="gt_row gt_left" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">YES</td>
+<td class="gt_row gt_left" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">3′ end</td>
+<td class="gt_row gt_left" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Good reproducibility and highly sensitive</td>
+<td class="gt_row gt_left" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Low throughput and amplification efficiency, library biased toward the 3′ end of the gene</td>
+<td class="gt_row gt_right" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; font-variant-numeric: tabular-nums;" data-valign="middle">2012</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_left gt_striped" headers="Platform_Name" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Tang-2009</td>
+<td class="gt_row gt_left gt_striped" headers="Separation_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">FACS</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Method" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">PCR</td>
+<td class="gt_row gt_left gt_striped" headers="Using_UMI" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">NO</td>
+<td class="gt_row gt_left gt_striped" headers="Amplification_Range" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">3′ end</td>
+<td class="gt_row gt_left gt_striped" headers="Advantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">Good reproducibility</td>
+<td class="gt_row gt_left gt_striped" headers="Disadvantages" style="text-align: left; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4;" data-valign="middle" data-bgcolor="#F4F4F4">High cost and low throughput</td>
+<td class="gt_row gt_right gt_striped" headers="Release_Date" style="text-align: right; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: none; border-top-width: 1px; border-top-color: #D5D5D5; border-left-style: none; border-left-width: 1px; border-left-color: #D5D5D5; border-right-style: none; border-right-width: 1px; border-right-color: #D5D5D5; vertical-align: middle; overflow-x: hidden; background-color: #F4F4F4; font-variant-numeric: tabular-nums;" data-valign="middle" data-bgcolor="#F4F4F4">2009</td>
+</tr>
+</tbody><tfoot class="gt_sourcenotes" style="border-style: none; color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3;" data-bgcolor="#FFFFFF">
+<tr class="even" style="border-style: none;">
+<td colspan="8" class="gt_sourcenote" style="text-align: left; border-style: none; font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px;"><p><strong>Reference</strong>: Shou wang et al., The Evolution of Single-Cell RNA Sequencing Technology and Application: Progress and Perspectives.</p></td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+<ul>
+<li><p>Since Tag-based methods involves sequencing only specific parts of each RNA molecule such as 3’ or 5’ ends, this allows for the efficient capture and sequencing of RNA from a large number of cell, allowing better identity of cell type population.</p></li>
+<li><p>Tag-based methods have usually cheaper per cell cost.</p></li>
+</ul>
+<div id="fig-whole" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-whole-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="structure.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-whole-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Whole picture of how the reads are synthesized
+</figcaption>
+</figure>
+</div>
+<p>To capture the mRNA molecule, we hybridize it to a poly-dT sequence that has unique molecular identifier (UMI) attached to it. UMIs are randomly synthesized sequences, typically between 8 and 12 base pairs in length, depending on the technology and its version, providing over 50,000 possible combinations<span class="citation" data-cites="archer2016modeling">(<a href="#ref-archer2016modeling" role="doc-biblioref">Archer et al. 2016</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Possible combination with 8 and 12 bp:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Since there are 4 nucleotides (A, T, C, G)</p>
+<p>For a UMI of 8 base pairs, there are 4^8 (65,536) possible combinations. For 12 base pairs, the number of combinations is 4^12(16,777,216).</p>
+</div>
+</div>
+<p>Theoretically, each mRNA molecule would have a unique barcode. However, in practice, randomness in synthesis does not guarantee equal probability for all sequences, leading to biases in UMI distribution. To address this, we combine the UMI with the genomic location of the mRNA transcript to uniquely identify captured mRNA molecules.</p>
+<p>Additionally, we incorporate a cell barcode, a sequence between 14 and 18 base pairs, the number varies with the technology used. These barcodes are deliberately generated from predetermined pools, ensuring each barcode differs by at least two base pairs from any other to allow for error correction.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+More explanation on barcodes:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When we design barcodes to identify each cell, we make sure every barcode is different from every other barcode by at least two letters. This way, even if there’s a small mistake in reading the barcode (like reading an ‘A’ as a ‘T’), we can still tell which cell it’s supposed to be from. If two barcodes are only one letter different, we assume the difference is just a mistake and group them together as coming from the same cell. This helps us correct for small errors and ensures we correctly identify each cell.</p>
+</div>
+</div>
+<p>Sequencing errors can occur, and having such errors in cell barcodes could misassign reads to incorrect cell types, such as assigning a read from a T-cell to an endothelial cell. The two base pair differences between barcodes enable us to aggregate barcodes with single base pair differences, treating them as sequencing errors, and ensuring they all originated from the same cell <span class="citation" data-cites="aird2011">(<a href="#ref-aird2011" role="doc-biblioref">Aird et al. 2011</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+More on UMI and barcodes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>UMIs are used to identify and quantify individual RNA molecules within a single cell. They help correct for biases introduced during the amplification process (such as PCR) by allowing the differentiation between true biological duplicates and duplicates introduced during amplification. When an RNA molecule is captured and converted to cDNA, a unique sequence (UMI) is attached to it. This UMI allows researchers to count the original number of RNA molecules more accurately because even if the molecule is amplified multiple times, it will still have the same UMI.</p>
+<p>While cell barcodes are used to identify which cell an RNA molecule came from and essential for distinguish RNA molecule from different cells. Each cell in the experiment is tagged with a unique barcode before sequencing and then this barcode is added to all the RNA molecules captured from that particular cell.</p>
+</div>
+</div>
+<p>Knowing the predetermined pool of barcode sequences is essential for accurate identification and error correction in our analysis.We need to be aware of the specific pool of barcodes used. For example, if you are using the 10X Genomics Chromium system, <a href="https://github.com/10XGenomics/cellranger/blob/main/lib/python/cellranger/chemistry.py">10X genomics barcode whitelist</a> you can visit their website to identify the version you are using and download the corresponding whitelist of barcodes.Below shown in <a href="#fig-whitelist" class="quarto-xref">Figure&nbsp;3</a> is whitelist corresponding to different chemistry of 10X Genomics with its bp as well.</p>
+<div id="fig-whitelist" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-whitelist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="https://github.com/10XGenomics/cellranger/tree/main/lib/python/cellranger"><img src="barcodes.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-whitelist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Whitelist of the barcodes for 10X chromium system
+</figcaption>
+</figure>
+</div>
+<p>If you are using a different technology, you will need to locate the appropriate whitelist of barcodes for that system.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that barcode lengths and sequences can vary between versions, so it is crucial to ensure you have the correct one. the good thing is that cell-Ranger pipeline has most of these built in and will automatically try and guess which white list you’re using but it’s always preferable to know ahead of time and tell it the right one so that you have 0% chance of it guessing the wrong one.</p>
+</div>
+</div>
+<p>After barcodes, the next step is PCR Amplification, We then obtain our PCR primers, which are use to extensively amplify our mRNA molecules, increasing their quantity from picograms to nanograms or more for our sequencing libraries. Once hybridized, a reverse transcriptase primer is also attached, enabling reverse transcription to begin and generate a cDNA strand from the mRNA. This process includes adding a series of cytosines (C’s) at the end of the cDNA. A switch oligo is then added, which hybridizes to these poly-C tails and provides a primer for reverse transcriptase to synthesize the second strand of cDNA as shown in <a href="#fig-whole" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<p>Afterward, we have our cDNA with PCR primers, which we can amplify. We perform the amplification through 12 to 15 PCR cycles. Any inefficiencies or noise in the PCR process are also amplified, which is why we use unique molecular identifiers (UMIs). UMIs help eliminate amplification noise by counting the unique UMIs instead of the total reads at the end.</p>
+<p>Next, sequencing library is prepared. For Illumina sequencing, this involves fragmenting the cDNA into approximately 300 base pair fragments, followed by paired-end sequencing to generate two 100 base pair reads. Some sequencing facilities now offer protocols specifically optimized for 10X Genomics data, sequencing only the required lengths for each read. so in totality this is how scrna single read looks like shown in <a href="#fig-reads" class="quarto-xref">Figure&nbsp;4</a> :</p>
+<div id="fig-reads" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reads-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="total read.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reads-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Image credit <a href="https://publish.uwo.ca/~tandrew6/">Tallulah Andrews Presentation, Andrews Computational Biology Lab</a>: Structure of scRNA-seq reads
+</figcaption>
+</figure>
+</div>
+<p>Based on the above discussion, lets ask some question and then try to answer those.</p>
+<p><strong>Q1:</strong> What would happen if the mRNA gets highly degraded before reverse transcription occurs?</p>
+<p><strong>Ans1</strong>: if the mRNA is degraded then their are several possible scenarios that works in connection with each other can be disrupted:</p>
+<ul>
+<li><p>Fragmented mRNA may not include the entire sequence of the genes. This can lead to missing information for genes that are represented only by the degraded parts.</p></li>
+<li><p>The sequencing library may become biased towards the more stable fragments of mRNA, potentially overrepresenting some parts of the transcriptome while underrepresenting others. This can skew the expression profiles.</p></li>
+<li><p>Incomplete cDNA Synthesis.</p></li>
+</ul>
+<p><strong>Q2:</strong> What would happen if the wrong cell barcode whitelist is used ?</p>
+<p><strong>Ans2:</strong> This would cause alot of the reads to not match to any cell essentially resulting in throwing away 70 or 80% of reads because cell Ranger will not be able to map them to a cell.</p>
+<p><strong>Q3:</strong> what would happen if their is a strong bias towards certain sequences when generating UMIs.</p>
+<p><strong>Ans3:</strong> The strong bias towards certains sequences would undercount the amount of mRNA molecules actually captured because we will get more mRNA molecules with the same UMI.</p>
+</section>
+<section id="raw-data-to-count-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="raw-data-to-count-matrix"><strong>Raw data to count-matrix:</strong></h2>
+<p>The general workflow that is followed in scrnaseq is shown in <a href="#fig-general" class="quarto-xref">Figure&nbsp;5</a>.</p>
+<div id="fig-general" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-general-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="scRNA-seq_steps_image.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="561">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-general-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: General workflow of scRNA-seq. Image obtained from <a href="https://www.embopress.org/doi/full/10.15252/msb.20188746">here.</a>
+</figcaption>
+</figure>
+</div>
+<p>Once you get the reads from sequencing facility, they will either be in <a href="https://gist.github.com/crmackay/c35ccc406c1601a45146bf9c57538594">BCL</a> or <a href="https://en.wikipedia.org/wiki/FASTQ_format#:~:text=FASTQ%20format%20is%20a%20text,single%20ASCII%20character%20for%20brevity.">FASTQ</a> format or count matrix. Although most of the sequencing facilities nowadays would usually gives the sequencing file in FASTQ format. In case you are given the file in BCL format the first step would be to convert them to FASTQ format which can easily be done using Illumina <em><code>bcl2fastq</code></em> or for instance if one is using <em><code>CellRanger</code></em> pipeline then they have provide the useful function in the pipeline <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/mkfastq">cellranger mkfastq</a> which is preferred option for converting BCLs to FASTQs. However, if one wants to use the <em><code>CellRanger</code></em> pipeline then using their function <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/mkfastq">cellranger mkfastq</a> is the preferred one because it will generate cell-Ranger compatible FASTQs. More details on <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/mkfastq">Cell-Ranger pipeline is here.</a></p>
+</section>
+<section id="quality-check" class="level2">
+<h2 class="anchored" data-anchor-id="quality-check"><strong>Quality Check:</strong></h2>
+<p>After getting FASTQs, the first step generally that is common in almost all the high-throughput sequencing is running a quality control on FASTQ file and usually this is done utilizing <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/"><em><code>FASTQC</code></em> user guide page</a> . Overall, <em><code>FASTQC</code></em> generate an <a href="files/1HQ-1_1_fastqc.html">html</a> or <a href="files/1HQ-1_2_fastqc.html">this</a>. <a href="files/What_is_a_FASTQ_file_how_to_interpret_it.pdf">Here:i am attaching a link</a> to one of the very useful resources that can get you started with <em><code>FASTQC</code></em> ,how to interpret it and what is good and bad quality. This material was taken from this <a href="https://www.futurelearn.com/courses/bioinformatics-for-biologists-analysing-and-interpreting-genomics-datasets">course:Bioinformatics for Biologists: Analysing and Interpreting Genomics Datasets</a> that was offered by <strong>wellcome connecting science</strong> and is one of the best course if someone is interested in analyzing genomics dataset and variant interpretation. Nevertheless, <em><code>FASTQC</code></em> generates a QC report for each input FASTQ file, essentially summarizes the quality score, base content, and certain relevant statistics to spot potential problems originating from library preparation or sequencing. Additionally, another tools that can give more comprehensive report is <em><code>MultiQC</code></em>, the output file of which looks something like <a href="files/multiqc_multiqc_report.html">this</a>.</p>
+</section>
+<section id="mapping" class="level2">
+<h2 class="anchored" data-anchor-id="mapping"><strong>Mapping:</strong></h2>
+<ol type="1">
+<li><p>Alignment or mapping refers to the process of matching the sequenced RNA reads to a reference genome or transcriptome. This step is crucial for identifying the origins of fragments especially RNA in the context of scRNA within each cell, enabling the quantification of gene or transcript expression levels. This step is usually computationally intensive in any high-throughput sequencing analysis.</p></li>
+<li><p>The alignment process uses specialized algorithms to locate the positions of RNA reads on the reference genome, thus determining which genes are expressed and at what levels.</p></li>
+<li><p>The output of this process typically includes several key files: an aligned reads file in BAM (Binary Alignment Map) or SAM (Sequence Alignment Map) format, which contains detailed information about the read sequences, their alignment positions, and mapping quality; a gene expression matrix in tabular format, which provides counts of reads or transcripts mapped to each gene for every single cell, essential for downstream analyses like identifying differentially expressed genes and clustering cells based on their gene expression profiles.</p></li>
+<li><p>Summary statistics that assess the quality of the alignment, including metrics such as the percentage of successfully aligned reads, the distribution of reads across genomic features, and overall coverage depth. Through alignment or mapping, researchers can accurately quantify gene expression at the single-cell level, facilitating insights into cellular heterogeneity and the discovery of novel cell types and states.</p></li>
+<li><p>As of now, several tools has been developed to align or map scRNA reads to either reference transcriptome, genome or an augmented transcriptome. Tools like <em><code>Cell Ranger</code></em> <span class="citation" data-cites="zheng2017">(<a href="#ref-zheng2017" role="doc-biblioref">Zheng et al. 2017</a>)</span>, <em><code>zUMIs</code></em> <span class="citation" data-cites="parekh2018">(<a href="#ref-parekh2018" role="doc-biblioref">Parekh et al. 2018</a>)</span>, <em><code>alevin</code></em> <span class="citation" data-cites="Srivastava2016">(<a href="#ref-Srivastava2016" role="doc-biblioref">Srivastava et al. 2016</a>)</span>, <em><code>Raindrop</code></em> <span class="citation" data-cites="Niebler2020">(<a href="#ref-Niebler2020" role="doc-biblioref">Niebler et al. 2020</a>)</span>, <em><code>kallisto Bustools</code></em> <span class="citation" data-cites="melsted2021">(<a href="#ref-melsted2021" role="doc-biblioref">Melsted et al. 2021</a>)</span>, <em><code>STARsolo</code></em> <span class="citation" data-cites="kaminow2021">(<a href="#ref-kaminow2021" role="doc-biblioref">Kaminow, Yunusov, and Dobin 2021</a>)</span>, and <em><code>Allevin fry</code></em> <span class="citation" data-cites="he2022">(<a href="#ref-he2022" role="doc-biblioref">He et al. 2022</a>)</span> are some of the tools that have been extensively used to carry out alignment or mapping.</p></li>
+</ol>
+<p>Different reference sequences can be used for mapping. There are three main types of reference sequences:</p>
+<ul>
+<li><p>The full, annotated reference genome.</p></li>
+<li><p>The annotated transcriptome.</p></li>
+<li><p>Mapping against an augmented transcriptome.</p></li>
+</ul>
+<p>However, it’s important to note that not all combinations of mapping algorithms and reference sequences are currently possible. For instance, there are no lightweight mapping algorithms available that can perform spliced mapping of reads against a reference genome.</p>
+</section>
+<section id="mapping-using-reference-genome" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-using-reference-genome"><strong>Mapping using reference Genome:</strong></h2>
+<ul>
+<li><p>Mapping in scRNA-seq involves aligning sequenced RNA reads to the entire genome of the target organism, including annotated transcripts.</p></li>
+<li><p>Tools like <em><code>zUMI</code></em><code>s, Cell Ranger, and STARsolo</code> use this whole-genome approach.</p></li>
+<li><p>These tools employ splice-aware alignment algorithms to handle reads from spliced transcripts, meaning they can align reads split across splicing junctions.</p></li>
+<li><p>The advantage of this method is that it accounts for reads from any location in the genome, not just known transcripts.</p></li>
+<li><p>This approach allows capturing reads within introns and other non-annotated regions, enabling comprehensive gene detection and quantification.</p></li>
+<li><p>Constructing a genome-wide index is required, which allows reporting reads that map to both known spliced transcripts and intronic regions.</p></li>
+<li><p>Such methods can also capture reads outside annotated transcripts, which helps in post hoc augmentation of quantified loci, increasing gene detection sensitivity.</p></li>
+<li><p>However, this method requires substantial memory, especially during the index construction and storage phase, often exceeding hundreds of gigabytes.</p></li>
+<li><p>Using a sparse suffix array can reduce the index size but at the cost of alignment speed.</p></li>
+<li><p>Spliced alignment is more computationally expensive than contiguous alignment due to the complexity of explicitly computing alignment scores for each read.</p></li>
+<li><p>This approach necessitates the availability of the organism’s genome, which can be challenging for non-model organisms that only have a transcriptome assembly available.</p></li>
+</ul>
+</section>
+<section id="mapping-using-reference-transcriptome" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-using-reference-transcriptome"><strong>Mapping using Reference Transcriptome:</strong></h2>
+<ul>
+<li><p>To reduce the computational load of spliced alignment to a genome, an alternative approach is to use only the sequences of annotated transcripts as the reference.</p></li>
+<li><p>Most single-cell experiments use model organisms (like mice or humans) that have well-annotated transcriptomes, making transcriptome-based methods provide similar read coverage to genome-based methods.</p></li>
+<li><p>Transcriptome sequences are smaller than genome sequences, which reduces the computational resources needed for the mapping process.</p></li>
+<li><p>Using transcript sequences, which already include splicing patterns, eliminates the need for complex spliced alignment. Instead, reads are mapped through contiguous alignments.</p></li>
+<li><p>This approach works well with both alignment and lightweight mapping techniques, and is used in many popular tools.</p></li>
+<li><p>However, this method doesn’t capture reads from outside the spliced transcriptome, making it unsuitable for single-nucleus data.</p></li>
+<li><p>In single-cell experiments, reads from outside the spliced transcriptome can be significant and should be included in the analysis.</p></li>
+<li><p>Using lightweight mapping approaches can sometimes lead to incorrect read mappings and unrealistic estimates of gene expression.</p></li>
+</ul>
+</section>
+<section id="mapping-against-an-augmented-transcriptome" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-against-an-augmented-transcriptome"><strong>Mapping against an augmented transcriptome:</strong></h2>
+<p>An augmented transcriptome is an updated version of a standard transcriptome reference that includes additional sequences beyond the typical spliced transcripts. This augmentation can involve the inclusion of:</p>
+<ul>
+<li><p><strong>Full-Length Unspliced Transcripts</strong>: These are the complete RNA sequences before splicing occurs, which include both exons and introns.</p></li>
+<li><p><strong>Intronic Sequences</strong>: These are the sequences of introns, which are usually removed during the splicing process in eukaryotic cells.</p></li>
+<li><p><strong>Other Non-Coding Regions</strong>: Additional sequences that may give rise to RNA reads, such as untranslated regions (UTRs) or intergenic regions.</p></li>
+<li><p>To account for reads that may come from outside of spliced transcripts, spliced transcript sequences can be augmented with additional reference sequences, such as full-length unspliced transcripts or intronic sequences.</p></li>
+<li><p>Augmented transcriptome references, which include introns, create reference indices that are smaller than those needed for the full genome while still enabling the search for contiguous read alignments.</p></li>
+<li><p>This approach can lead to faster and less memory-intensive alignment compared to mapping against the full genome, while also capturing many reads from outside the spliced transcriptome.</p></li>
+<li><p>Mapping to an expanded set of reference sequences recovers more reads than mapping to the spliced transcriptome alone, and reduces spurious mappings when using lightweight mapping-based methods.</p></li>
+<li><p>Augmented transcriptomes are useful for quantifying single-nucleus data or preparing data for RNA-velocity analysis, offering a balance between computational efficiency and comprehensive read mapping.</p></li>
+<li><p><span class="citation" data-cites="he2022">(<a href="#ref-he2022" role="doc-biblioref">He et al. 2022</a>)</span> recommend constructing an augmented splici (spliced + intronic) reference even for standard single-cell RNA-seq data. This reference combines spliced transcript sequences with intronic sequences of annotated genes. Using this splici reference allows lightweight mapping methods, reduces spurious mappings, and improves sensitivity by detecting both spliced and unspliced reads.</p></li>
+<li><p>During quantification, splicing status is tracked and reported separately, unifying the preprocessing pipeline for single-cell, single-nucleus, and RNA-velocity analysis.</p></li>
+</ul>
+</section>
+<section id="considerations-regarding-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="considerations-regarding-mapping"><strong>Considerations Regarding Mapping:</strong></h2>
+<p>Here I am <a href="files/prepare_reference.sh">attaching a shell file: prepare_reference.sh</a> that contains all the script on downloading reference genome and annotation file and then some minor changes to make it more <em><code>cellRanger</code></em>-compatible. Additionally if you are working on mouse data then go to this <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/release-notes/build#mm10_2020A">link</a> and you will find all the relevant information regarding mouse data. When mapping reads to transcriptome one needs to consider:</p>
+<ol type="1">
+<li><p>If a Knock-in mouse has a novel human gene inserted into its genome, it is necessary to add that gene to the reference genome to accurately quantify its expression.</p></li>
+<li><p>Annotation quality needs to be considered, especially when working with non-model species. For mouse or human, this is generally not an issue. However, with non-model species, incomplete or inaccurate annotations can cause problems, particularly when sequencing only one end of the transcript. If many transcripts have long untranslated regions (UTRs) that have not been identified, it could result in the loss of a significant number of reads and genes. This is because many reads might not map to the annotated gene body. Therefore, it may be necessary to update the annotation if working with a less well-characterized genome of a non-typical species.</p></li>
+<li><p>Consider whether to include introns and exons or just exons. Previously, the answer was to use exons only for single-cell RNA sequencing and both introns and exons for single-nucleus RNA sequencing. However, now Cell Ranger includes both by default, as it captures 20% more reads even for single-cell RNA sequencing. There are also methods that utilize intronic versus exonic information, such as scVelo,<span class="citation" data-cites="Soneson2021">(<a href="#ref-Soneson2021" role="doc-biblioref">Soneson et al. 2021</a>)</span> which requires separate quantification of intron and exon reads.</p>
+<p>For assigning reads to cells, the <strong>correct whitelist for cell barcodes</strong> is needed, and UMIs (unique molecular identifiers) are counted. One challenge is dealing with multi-mapping reads, where a read maps to multiple genes so which gene gets UMI count for that read. Cell Ranger’s current rule is to exclude all those reads that are multimapping, which can lead to an undercounting bias for genes with close homologs.</p>
+<p>Cell Ranger also addresses sequencing errors in UMIs by allowing for up to one base pair error in the UMI sequence and correcting for it. While Cell Ranger is commonly used for 10x Genomics data, there are alternatives like STARsolo, which mimics Cell Ranger but is open-source and allows for easier modification of parameters.</p></li>
+<li><p>I’ve been discussing sequencing errors, which might seem unusual to those familiar with sequencing technology, as it is typically 99.9% accurate these days. However, when I mention sequencing errors, I’m actually referring to all the errors that can occur from the mRNA molecules to our sequencing reads. Errors can arise from <strong>reverse transcriptase</strong> during cDNA synthesis, from <strong>DNA polymerase</strong> during sequence amplification, and from the <strong>sequencing machine</strong> itself. While the sequencing machine’s errors are very low, errors at other stages are not necessarily as minimal.</p></li>
+</ol>
+</section>
+<section id="what-other-things-that-could-possibly-go-wrong" class="level2">
+<h2 class="anchored" data-anchor-id="what-other-things-that-could-possibly-go-wrong"><strong>What other things that could possibly go wrong😧:</strong></h2>
+<p>Before explaining what other things could possibly go wrong, its time to define few terminologies.</p>
+<p><strong>Ambient RNA:</strong> Ambient RNA is&nbsp;cell-free mRNA that is released during preparation of single-cell suspensions for scRNA-Seq analysis.</p>
+<p><strong>Doublets:</strong> A doublet in scRNA-seq refers to an event where two cells are captured in the same droplet or well, leading to their RNA being sequenced together.</p>
+<p>Lets explore the ambient RNA thing in detail now, but first we need to know how the droplets are generated.</p>
+<p><strong>How are droplets generated in an ideal world:</strong></p>
+<p>To explain the process of empty droplet generation in single-cell assays, we need to look at how these droplets are created. We produce these droplets by simultaneously flowing barcoded beads and cells, which are then encased in droplets by oil in our 10x Chromium machine as shown in <a href="#fig-droplets" class="quarto-xref">Figure&nbsp;6</a>.</p>
+<div id="fig-droplets" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-droplets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="droplets.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-droplets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: How droplets are generated
+</figcaption>
+</figure>
+</div>
+<p>This process generates hundreds of droplets per second. Ideally, each droplet would contain one cell and one barcoded bead, but in reality, only about 5% of the droplets achieve this ideal condition. Additionally, all droplets contain ambient RNA. This occurs because some cells get damaged or break during handling and extraction from tissue, particularly when passing through microfluidic devices at high speeds. This results in RNA being released into the surrounding solution.</p>
+<p>When droplets are formed, they capture both the cells and the ambient RNA floating in the supernatant. Therefore, ambient RNA is present in nearly all droplets. In practice, about 95% of droplets are considered empty, with approximately 20% containing only ambient RNA. Around 7% of droplets will have a barcoded bead with capture nucleotides along with ambient RNA as shown in <a href="#fig-doublet" class="quarto-xref">Figure&nbsp;7</a>.</p>
+<div id="fig-doublet" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-doublet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="doublet.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-doublet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Possible droplets Configuration
+</figcaption>
+</figure>
+</div>
+<p>This means the barcoded bead can capture ambient RNA, generate cDNA, and include unique molecular identifiers (UMIs) that will appear in the sequencing library and subsequently in the sequencing data results.</p>
+<p>When ambient RNA is present at moderate to high levels, it can cause problems in later parts of the analyses for two main reasons:</p>
+<ol type="1">
+<li><p>Ambient RNA can mix with the genuine gene expression profiles of cells, making it difficult to accurately identify cell types.</p></li>
+<li><p>Differences observed between experimental conditions might be due to variations in ambient RNA levels rather than actual biological differences.</p></li>
+<li><p>For the solution of this problem <span class="citation" data-cites="Lun2019">(<a href="#ref-Lun2019" role="doc-biblioref">Lun et al. 2019</a>)</span> proposed an efficient method in this paper and that <strong><code>cell Ranger</code></strong> Version 3 and above has adapted in their pipeline. For the detail method here is the link to the paper <span class="citation" data-cites="Lun2019">(<a href="#ref-Lun2019" role="doc-biblioref">Lun et al. 2019</a>)</span>. The function <strong><code>emptydrops</code></strong> is embedded in <strong><code>DropletUtils</code></strong> R package. Another useful resource for <a href="https://www.10xgenomics.com/analysis-guides/introduction-to-ambient-rna-correction"><strong>When should I correct for ambient RNA?</strong></a></p></li>
+</ol>
+<p><strong>2nd Problem:</strong> Processed pseudogenes are mRNAs that have undergone reverse transcription within the cell and been reintegrated into the genome. They possess the entire exonic sequence but lack promoters, enhancers, or any regulatory elements, making them incapable of being expressed since transcription factors or RNA polymerase cannot bind to them.</p>
+<p>Despite this, we still detect them due to mismatched reads. Ideally, all reads should align with the gene that is actively transcribed, but a small portion of reads actually map to the processed pseudogene. This mismapping accounts for about 4% of the reads. Considering a 1% sequencing error rate, a 100 base pair read would result in approximately 4% of the reads having three or more sequencing errors, causing mismapping. This analysis only includes uniquely mapping genes, excluding multimapping reads.</p>
+<p>To address this mismapping issue, the default genome provided by <em><code>cellRanger</code></em> masks all pseudogenes and processed pseudogenes. This masking is done to prevent errors caused by mismatched reads.</p>
+<p><strong>Doublet Problem:</strong></p>
+<ul>
+<li><p>Doublets in single-cell RNA sequencing (scRNA-seq) arise when two cells are captured together in the same droplet or well during the encapsulation process as shown in <a href="#fig-doublet" class="quarto-xref">Figure&nbsp;7</a>. Multiple cells with multiple beads but that is less common.</p></li>
+<li><p>Doublets are divided further into two categories:</p></li>
+<li><p><strong>Heterotypic Doublets:</strong> When one bead capture two different cells where one could be an epithelial cell and one could be a T-cell.</p></li>
+<li><p><strong>Homotypic Doublets:</strong> When one bead capture two same cells, where both the cell are of the same type such as T-cells.</p></li>
+<li><p>Sadly, at this stage we cannot do anything about homotypic doublet and this is an active area of research. <a href="https://publish.uwo.ca/~tandrew6/">Andrews Computation Biology Lab</a> is working actively on this side of the single cell and ambient RNA as well. Anyone interested in this can go and check out their lab.</p></li>
+<li><p>But their are a bunch of tools that have been developed which works efficiently on identifying these heterotypic doublets i.e <strong><code>Doublet finder,</code></strong> <strong><code>Scrublet</code></strong>.</p></li>
+</ul>
+<p><strong>Be ashamed to die until you have won some victory for humanity: Horace Mann</strong></p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-aird2011" class="csl-entry" role="listitem">
+Aird, Daniel, Michael G Ross, Wei-Sheng Chen, Maxwell Danielsson, Timothy Fennell, Carsten Russ, David B Jaffe, Chad Nusbaum, and Andreas Gnirke. 2011. <span>“Analyzing and Minimizing PCR Amplification Bias in Illumina Sequencing Libraries.”</span> <em>Genome Biology</em> 12 (2): R18. <a href="https://doi.org/10.1186/gb-2011-12-2-r18">https://doi.org/10.1186/gb-2011-12-2-r18</a>.
+</div>
+<div id="ref-archer2016modeling" class="csl-entry" role="listitem">
+Archer, Nathan, Mark D Walsh, Vahid Shahrezaei, and Daniel Hebenstreit. 2016. <span>“Modeling Enzyme Processivity Reveals That RNA-Seq Libraries Are Biased in Characteristic and Correctable Ways.”</span> <em>Cell Systems</em> 3 (5): 467–79.
+</div>
+<div id="ref-he2022" class="csl-entry" role="listitem">
+He, Dongze, Mohsen Zakeri, Hirak Sarkar, Charlotte Soneson, Avi Srivastava, and Rob Patro. 2022. <span>“Alevin-Fry Unlocks Rapid, Accurate and Memory-Frugal Quantification of Single-Cell RNA-Seq Data.”</span> <em>Nature Methods</em> 19 (3): 316–22. <a href="https://doi.org/10.1038/s41592-022-01408-3">https://doi.org/10.1038/s41592-022-01408-3</a>.
+</div>
+<div id="ref-kaminow2021" class="csl-entry" role="listitem">
+Kaminow, Benjamin, Dinar Yunusov, and Alexander Dobin. 2021. <span>“STARsolo: Accurate, Fast and Versatile Mapping/Quantification of Single-Cell and Single-Nucleus RNA-Seq Data.”</span> <a href="http://dx.doi.org/10.1101/2021.05.05.442755">http://dx.doi.org/10.1101/2021.05.05.442755</a>.
+</div>
+<div id="ref-Lun2019" class="csl-entry" role="listitem">
+Lun, Aaron T. L., Samantha Riesenfeld, Tallulah Andrews, The Phuong Dao, Tomas Gomes, and John C. Marioni. 2019. <span>“EmptyDrops: Distinguishing Cells from Empty Droplets in Droplet-Based Single-Cell RNA Sequencing Data.”</span> <em>Genome Biology</em> 20 (1). <a href="https://doi.org/10.1186/s13059-019-1662-y">https://doi.org/10.1186/s13059-019-1662-y</a>.
+</div>
+<div id="ref-melsted2021" class="csl-entry" role="listitem">
+Melsted, Páll, A. Sina Booeshaghi, Lauren Liu, Fan Gao, Lambda Lu, Kyung Hoi Min, Eduardo da Veiga Beltrame, Kristján Eldjárn Hjörleifsson, Jase Gehring, and Lior Pachter. 2021. <span>“Modular, Efficient and Constant-Memory Single-Cell RNA-Seq Preprocessing.”</span> <em>Nature Biotechnology</em> 39 (7): 813–18. <a href="https://doi.org/10.1038/s41587-021-00870-2">https://doi.org/10.1038/s41587-021-00870-2</a>.
+</div>
+<div id="ref-Niebler2020" class="csl-entry" role="listitem">
+Niebler, Stefan, André Müller, Thomas Hankeln, and Bertil Schmidt. 2020. <span>“RainDrop: Rapid Activation Matrix Computation for Droplet-Based Single-Cell RNA-Seq Reads.”</span> <em>BMC Bioinformatics</em> 21 (1). <a href="https://doi.org/10.1186/s12859-020-03593-4">https://doi.org/10.1186/s12859-020-03593-4</a>.
+</div>
+<div id="ref-parekh2018" class="csl-entry" role="listitem">
+Parekh, Swati, Christoph Ziegenhain, Beate Vieth, Wolfgang Enard, and Ines Hellmann. 2018. <span>“zUMIs - A Fast and Flexible Pipeline to Process RNA Sequencing Data with UMIs.”</span> <em>GigaScience</em> 7 (6). <a href="https://doi.org/10.1093/gigascience/giy059">https://doi.org/10.1093/gigascience/giy059</a>.
+</div>
+<div id="ref-Soneson2021" class="csl-entry" role="listitem">
+Soneson, Charlotte, Avi Srivastava, Rob Patro, and Michael B. Stadler. 2021. <span>“Preprocessing Choices Affect RNA Velocity Results for Droplet scRNA-Seq Data.”</span> Edited by Min Li. <em>PLOS Computational Biology</em> 17 (1): e1008585. <a href="https://doi.org/10.1371/journal.pcbi.1008585">https://doi.org/10.1371/journal.pcbi.1008585</a>.
+</div>
+<div id="ref-Srivastava2016" class="csl-entry" role="listitem">
+Srivastava, Avi, Hirak Sarkar, Nitish Gupta, and Rob Patro. 2016. <span>“RapMap: A Rapid, Sensitive and Accurate Tool for Mapping RNA-Seq Reads to Transcriptomes.”</span> <em>Bioinformatics</em> 32 (12): i192–200. <a href="https://doi.org/10.1093/bioinformatics/btw277">https://doi.org/10.1093/bioinformatics/btw277</a>.
+</div>
+<div id="ref-zheng2017" class="csl-entry" role="listitem">
+Zheng, Grace X. Y., Jessica M. Terry, Phillip Belgrader, Paul Ryvkin, Zachary W. Bent, Ryan Wilson, Solongo B. Ziraldo, et al. 2017. <span>“Massively Parallel Digital Transcriptional Profiling of Single Cells.”</span> <em>Nature Communications</em> 8 (1). <a href="https://doi.org/10.1038/ncomms14049">https://doi.org/10.1038/ncomms14049</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<div>
+
+<hr>
+
+
+
+<p> Thank you for reading this post,If you enjoyed this blog post, then don't miss out on any future posts by subscribing to my email newsletter. </p>
+
+
+
+<iframe src="https://embeds.beehiiv.com/16ea8f24-5081-4a37-a0df-1f2c6db92531" data-test-id="beehiiv-embed" width="400" height="320" frameborder="0" scrolling="no" style="border-radius: 2px; border: 2px solid #e5e7eb; margin: 0; background-color: transparent;">
+
+
+
+</iframe>
+
+
+
+<hr>
+
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/wajidiqbal1\.github\.io\/wajidiqbal1\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="Wajidiqbal1/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Copyright 2024, Wajid Iqbal</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This website is built with <i class="fa-solid fa-heart" title="pyaar sy" aria-label="heart"></i>, <a href="https://wajidiqbal1.github.io/wajidiqbal1/" target="_blank"><i class="fa-brands fa-github" title="GitHub" aria-label="github"></i></a>, <a href="https://www.r-project.org/about.html" target="_blank"><i class="fa-brands fa-r-project" title="R Project" aria-label="r-project"></i></a> and <a href="https://quarto.org/" target="_blank">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

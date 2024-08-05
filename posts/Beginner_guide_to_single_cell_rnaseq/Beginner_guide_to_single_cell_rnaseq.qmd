@@ -42,7 +42,7 @@ Complex Biology give rise to complex system, where each component of the system 
 
 Now with single cell one can draw a comparison not only at inter-tumor but at intra-tumor level which was not possible in case of Bulk-rnaseq. Scrna-seq based studies can be used to:
 
--   explore which cell types are present in a tissue (Cellular Heterogeneity)
+-   Explore which cell types are present in a tissue (Cellular Heterogeneity)
 
 -   Identify unknown/rare cell types or states
 
@@ -54,11 +54,11 @@ Now with single cell one can draw a comparison not only at inter-tumor but at in
 
 ## **Challenges with scRNA-seq Analysis:**
 
-Bulk rna-seq works perfectly well if your analysis involves comparing average-cellular expression between two different conditions. Similarly it also has potential for the discovery of disease biomarkers if you are **not expecting or not concerned about cellular heterogeneity **in the sample. Howerver, scrna-seq with its revolutioninzig capabilities to uncover cellular heterogeneity aslo has some challenges associated with it.
+Bulk RNA-seq works perfectly well if your analysis involves comparing average-cellular expression between two different conditions. Similarly it also has potential for the discovery of disease biomarkers if you are **not expecting or not concerned about cellular heterogeneity **in the sample. However, scrna-seq with its revolutionizing capabilities to uncover cellular heterogeneity also has some challenges associated with it.
 
 -   Experiment is costly.
 
--   Library preparation is dificult.
+-   Library preparation is difficult.
 
 -   Analysis of the data is complicated.
 
