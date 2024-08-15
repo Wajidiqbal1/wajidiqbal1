@@ -1,0 +1,128 @@
+---
+title: "**Easy Explanation of P_Value**"
+description: "What does p-Value means and what it really means when someone says that p-value was less than 0.05 "
+author:
+  - name: Wajid Iqbal
+    url: https://wajidiqbal1.github.io/wajidiqbal1/
+    orcid: 0009-0002-0816-8388
+    affiliation: "International Islamic University, Islamabad"
+    affiliation-url: https://www.iiu.edu.pk/faculties/sciences/department-of-biotechnology-bioinformatics/
+categories: [Statistics,RNAseq,P-value]
+image: headshot.png
+---
+
+😕 Have you ever wondered what this statement means **"P-value was less than 0.05 hence the results are significant"**? For researchers, this seemingly simple number holds more weight than you might imagine. Let’s dive into why this tiny value is so crucial in scientific studies. I am writing this post for my own future reference but if it can help someone else, then the reason for writing it will be fulfilled. **P-Value** is a common statistical term and i thought i had a clear understanding of it but it turns out that the language in which it is normally described can be misleading and often results in the wrong interpretation.
+
+Lets ask a very simple question and try to understand what a **p value** is:
+
+**SuperVeggie or Apple or any other Juice** is claimed to improve energy levels. In a recent study, participants who drank SuperVeggie Juice showed a 3 times increase in their energy levels compared to those who drank water **(p \< 0.05, 95% CI 2.0-4.0).**
+
+-   There's a 5% chance that SuperVeggie Juice actually has no effect.
+
+-   There's a 95% chance that SuperVeggie Juice increases energy levels by 2 to 4 times.
+
+-   There's a 95% chance that SuperVeggie Juice actually works.
+
+🤔**Can you tell which statements above are true or false?**
+
+The answer is ...... none of the statements above are **true**. If you are not sure why, hopefully this post will clear things up.
+
+Before going into why the above statements are wrong and how they means different than what you thought lets describe a few other concepts related to it and then we will come back to it.
+
+## [**Hypothesis:**]{.underline}
+
+A research hypothesis is a hypothesis that **is used to test the relationship between two or more variables**. For example, Does drug A has an effect on B or vice versa.
+
+Let say we are interested in finding out whether superveggie juice increase the energy level or not compared to water.
+
+In other words (statistical words) this would be phrased as:
+
+[**H0 (null hypothesis):**]{.underline} There is no significant difference in energy levels between the group that drank SuperVeggie Juice and the group that drank water. Or, the average energy levels of the SuperVeggie Juice group - the average energy levels of the water group = 0.
+
+[**H1 (alternative hypothesis):**]{.underline} There is a significant difference in energy levels between the group that drank SuperVeggie Juice and the group that drank water. Or, the average energy levels of the SuperVeggie Juice group - the average energy levels of the water group ≠ 0.
+
+So now it’s time to test the effectiveness of SuperVeggie Juice!
+
+Instead of testing every single person in the world, we select a **sample** of 100 people who drank SuperVeggie Juice and 100 people who drank water.
+
+The mean energy level increase for the SuperVeggie Juice group is 3 points. The mean energy level increase for the water group is 2 points. What we are actually testing is the **difference in means**. Based on our sample data, we obtain a 95% confidence interval between 0.5 and 1.7 points, and a p-value of 0.02.
+
+**In summary:**
+
+-   **p-value = 0.02**
+
+-   **CI (confidence interval) = \[0.5, 1.7\]**
+
+-   **CL (confidence level) = 95%**
+
+We decide to use a p-value threshold of 0.05. Since our p-value is less than 0.05, our results are significant. We can accept the alternative hypothesis (that there are significant differences in energy levels between the two groups) and reject the **null hypothesis**.
+
+Wohoo!
+
+So… what does this actually mean?
+
+## **What are p-values?**
+
+A p-value is the probability of obtaining the result you got—or an even more extreme one—if the null hypothesis is correct, simply put it tells us how likely it is that we would see the results we got, if there was actually no effect.
+
+In our SuperVeggie Juice example, a p-value tells us how likely it is that we would see the energy boost we observed if SuperVeggie Juice actually does nothing at all.
+
+-   A p-value of 0.02 means there is a 2% chance that we would observe the energy level increase (or even a larger increase) we saw if SuperVeggie Juice actually has no effect.
+
+-   In simple terms, if SuperVeggie Juice did nothing, there's only a 2% chance that the difference in energy levels (between the juice group and the water group) would be this big just by random luck.
+
+-   In other words, if SuperVeggie Juice had no effect on energy levels, there is a 2% chance of taking 100 people who drank the juice and 100 people who drank water, averaging their energy level increases, subtracting the means, and getting a difference of 1 point or more.
+
+This brings us to the most common **misconception of p-values.** Read the following statement carefully, and decide if it is true or false:
+
+**With a p-value threshold of 5%, we are accepting that there is a 5% probability that there actually is no significant difference between groups.**
+
+What do you think?
+
+The truth is… it is FALSE!
+
+we define p-value as something that tells us how likely it is that we would see the results we got, if there was actually no effect. With a p-value threshold of 5%, we are accepting a 5% probability of obtaining those results if there are no differences between groups. The ‘trick’ here is that the **p-value does not tell you if H0 is correct or incorrect. It just tells you how probable it is that you got the results you got, if H0 were correct.** The smaller the p-value, the more improbable it is that you got those results if H0 were correct, in other words. Often we take a ‘shortcut’ and say ‘p \< 0.05 – we reject the null hypothesis and assume there’s a 5% chance that it is actually correct’. But this is wrong, because the p-value does not inform whether H0 is correct or incorrect, it informs about the probability of obtaining those results from our sample, **if H0 were true.**
+
+::: callout-tip
+-   **The p-value is NOT the probability that the null hypothesis is true, or the probability that the alternative hypothesis is false.**
+
+-   **The p-value is not the probability that the observed effects were produced by random chance alone.**
+
+-   **The p-value is the probability of obtaining the result you got—or an even more extreme one—if the null hypothesis is correct.**
+:::
+
+In Summary a p-value helps us understand the **likelihood of our results under the null hypothesis, not the likelihood of the hypothesis itself being true or false.**
+
+## **Answers of the Questions that we asked above:**
+
+**There's a 5% chance that SuperVeggie Juice actually has no effect.**
+
+[**Why it's wrong:**]{.underline} The p-value (p \< 0.05) does not tell us the chance that SuperVeggie Juice has no effect. Instead, it tells us that if SuperVeggie Juice had no effect, there is less than a 5% chance we would see these results by random chance alone.
+
+[**Correct statement:**]{.underline} "There is strong evidence that SuperVeggie Juice improves energy levels, with a less than 5% chance that these results are due to random chance.
+
+**There's a 95% chance that SuperVeggie Juice increases energy levels by 2 to 4 times.**
+
+[**Why it's wrong:**]{.underline} The 95% confidence interval means that if we repeated the study many times, 95% of the time, the true increase in energy levels would fall between 2 and 4 times. It does not mean there's a 95% chance for the specific study result.
+
+[**Correct statement:**]{.underline} We are 95% confident that SuperVeggie Juice increases energy levels between 2 and 4 times.
+
+**There's a 95% chance that SuperVeggie Juice actually works.**
+
+[**Why it's wrong:**]{.underline} The confidence interval and p-value do not give the probability that SuperVeggie Juice works. They show evidence of an effect and the range of possible increases in energy levels.
+
+[**Correct statement:**]{.underline} The study shows strong evidence that SuperVeggie Juice works, and we are confident the true increase in energy levels is between 2 and 4 times.
+
+## **Resources:**
+
+-   [**A Dirty Dozen: Twelve P -Value Misconceptions**](https://www.clinicalkey.com.au/#!/content/playContent/1-s2.0-S0037196308000620?returnurl=https:%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0037196308000620%3Fshowall%3Dtrue&referrer=https:%2F%2Fpubmed.ncbi.nlm.nih.gov%2F): dig in deeper into p-value misconceptions with this article.
+
+-   [**The clinician’s guide to *p* values, confidence intervals, and magnitude of effects**](https://www.nature.com/articles/s41433-021-01863-w): short Nature paper on p-values and confidence intervals.
+
+-   [**Confidence intervals: Correct and incorrect interpretations**](https://medium.com/@andersongimino/confidence-intervals-correct-and-incorrect-interpretations-bdc76cabbab): nice, easy 5 min read about confidence intervals with an example.
+
+-   [**Confidence Interval or P-Values?**](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2689604/) Article on the meaning and interpretation of these two statistical concepts.
+
+-   [**PH525.3x Advanced Statistics for the Life Sciences on edx**](https://courses.edx.org/courses/course-v1:HarvardX+PH525.3x+1T2018/0b42cffa7c6e4c559bf74f93fb864a59/) by [**Rafael Irizarry**](http://rafalab.github.io/).
+
+-   [**Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations.**](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4877414/)

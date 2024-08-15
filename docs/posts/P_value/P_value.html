@@ -7,10 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Wajid Iqbal">
-<meta name="dcterms.date" content="2024-07-11">
-<meta name="description" content="Discover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.">
+<meta name="description" content="What does p-Value means and what it really means when someone says that p-value was less than 0.05">
 
-<title>Quantifying Expression in Single Cell</title>
+<title>Easy Explanation of P_Value</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,24 +25,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -88,19 +87,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./gallery/gallery.html"> 
+    <a class="nav-link" href="../../gallery/gallery.html"> 
 <span class="menu-text">Gallery</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./posts.html"> 
+    <a class="nav-link" href="../../posts.html"> 
 <span class="menu-text">Blogs</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -138,33 +137,41 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#hypothesis" id="toc-hypothesis" class="nav-link active" data-scroll-target="#hypothesis"><u><strong>Hypothesis:</strong></u></a></li>
+  <li><a href="#what-are-p-values" id="toc-what-are-p-values" class="nav-link" data-scroll-target="#what-are-p-values"><strong>What are p-values?</strong></a></li>
+  <li><a href="#answers-of-the-questions-that-we-asked-above" id="toc-answers-of-the-questions-that-we-asked-above" class="nav-link" data-scroll-target="#answers-of-the-questions-that-we-asked-above"><strong>Answers of the Questions that we asked above:</strong></a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><strong>Resources:</strong></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>Quantifying Expression in Single Cell</strong></h1>
+<h1 class="title"><strong>Easy Explanation of P_Value</strong></h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Scrnaseq</div>
+    <div class="quarto-category">Statistics</div>
     <div class="quarto-category">RNAseq</div>
-    <div class="quarto-category">Genomics</div>
-    <div class="quarto-category">Seurat</div>
+    <div class="quarto-category">P-value</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    Discover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.
+    What does p-Value means and what it really means when someone says that p-value was less than 0.05
   </div>
 </div>
 
-<div class="quarto-title-meta-author column-page">
+<div class="quarto-title-meta-author">
   <div class="quarto-title-meta-heading">Author</div>
   <div class="quarto-title-meta-heading">Affiliation</div>
   
@@ -173,22 +180,16 @@ ul.task-list li input[type="checkbox"] {
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            <a href="https://www.iiu.edu.pk/faculties/basic-and-applied-sciences-2/department-of-biotechnology-bioinformatics/">
+            <a href="https://www.iiu.edu.pk/faculties/sciences/department-of-biotechnology-bioinformatics/">
             International Islamic University, Islamabad
             </a>
           </p>
       </div>
   </div>
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta">
 
       
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">July 11, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -198,10 +199,118 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>😕 Have you ever wondered what this statement means <strong>“P-value was less than 0.05 hence the results are significant”</strong>? For researchers, this seemingly simple number holds more weight than you might imagine. Let’s dive into why this tiny value is so crucial in scientific studies. I am writing this post for my own future reference but if it can help someone else, then the reason for writing it will be fulfilled. <strong>P-Value</strong> is a common statistical term and i thought i had a clear understanding of it but it turns out that the language in which it is normally described can be misleading and often results in the wrong interpretation.</p>
+<p>Lets ask a very simple question and try to understand what a <strong>p value</strong> is:</p>
+<p><strong>SuperVeggie or Apple or any other Juice</strong> is claimed to improve energy levels. In a recent study, participants who drank SuperVeggie Juice showed a 3 times increase in their energy levels compared to those who drank water <strong>(p &lt; 0.05, 95% CI 2.0-4.0).</strong></p>
+<ul>
+<li><p>There’s a 5% chance that SuperVeggie Juice actually has no effect.</p></li>
+<li><p>There’s a 95% chance that SuperVeggie Juice increases energy levels by 2 to 4 times.</p></li>
+<li><p>There’s a 95% chance that SuperVeggie Juice actually works.</p></li>
+</ul>
+<p>🤔<strong>Can you tell which statements above are true or false?</strong></p>
+<p>The answer is …… none of the statements above are <strong>true</strong>. If you are not sure why, hopefully this post will clear things up.</p>
+<p>Before going into why the above statements are wrong and how they means different than what you thought lets describe a few other concepts related to it and then we will come back to it.</p>
+<section id="hypothesis" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis"><u><strong>Hypothesis:</strong></u></h2>
+<p>A research hypothesis is a hypothesis that&nbsp;<strong>is used to test the relationship between two or more variables</strong>. For example, Does drug A has an effect on B or vice versa.</p>
+<p>Let say we are interested in finding out whether superveggie juice increase the energy level or not compared to water.</p>
+<p>In other words (statistical words) this would be phrased as:</p>
+<p><u><strong>H0 (null hypothesis):</strong></u>&nbsp;There is no significant difference in energy levels between the group that drank SuperVeggie Juice and the group that drank water. Or, the average energy levels of the SuperVeggie Juice group - the average energy levels of the water group = 0.</p>
+<p><u><strong>H1 (alternative hypothesis):</strong></u> There is a significant difference in energy levels between the group that drank SuperVeggie Juice and the group that drank water. Or, the average energy levels of the SuperVeggie Juice group - the average energy levels of the water group ≠ 0.</p>
+<p>So now it’s time to test the effectiveness of SuperVeggie Juice!</p>
+<p>Instead of testing every single person in the world, we select a <strong>sample</strong> of 100 people who drank SuperVeggie Juice and 100 people who drank water.</p>
+<p>The mean energy level increase for the SuperVeggie Juice group is 3 points. The mean energy level increase for the water group is 2 points. What we are actually testing is the <strong>difference in means</strong>. Based on our sample data, we obtain a 95% confidence interval between 0.5 and 1.7 points, and a p-value of 0.02.</p>
+<p><strong>In summary:</strong></p>
+<ul>
+<li><p><strong>p-value = 0.02</strong></p></li>
+<li><p><strong>CI (confidence interval) = [0.5, 1.7]</strong></p></li>
+<li><p><strong>CL (confidence level) = 95%</strong></p></li>
+</ul>
+<p>We decide to use a p-value threshold of 0.05. Since our p-value is less than 0.05, our results are significant. We can accept the alternative hypothesis (that there are significant differences in energy levels between the two groups) and reject the <strong>null hypothesis</strong>.</p>
+<p>Wohoo!</p>
+<p>So… what does this actually mean?</p>
+</section>
+<section id="what-are-p-values" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-p-values"><strong>What are p-values?</strong></h2>
+<p>A p-value is&nbsp;the probability of obtaining the result you got—or an even more extreme one—if the null hypothesis is correct, simply put it tells us how likely it is that we would see the results we got, if there was actually no effect.</p>
+<p>In our SuperVeggie Juice example, a p-value tells us how likely it is that we would see the energy boost we observed if SuperVeggie Juice actually does nothing at all.</p>
+<ul>
+<li><p>A p-value of 0.02 means there is a 2% chance that we would observe the energy level increase (or even a larger increase) we saw if SuperVeggie Juice actually has no effect.</p></li>
+<li><p>In simple terms, if SuperVeggie Juice did nothing, there’s only a 2% chance that the difference in energy levels (between the juice group and the water group) would be this big just by random luck.</p></li>
+<li><p>In other words, if SuperVeggie Juice had no effect on energy levels, there is a 2% chance of taking 100 people who drank the juice and 100 people who drank water, averaging their energy level increases, subtracting the means, and getting a difference of 1 point or more.</p></li>
+</ul>
+<p>This brings us to the most common <strong>misconception of p-values.</strong> Read the following statement carefully, and decide if it is true or false:</p>
+<p><strong>With a p-value threshold of 5%, we are accepting that there is a 5% probability that there actually is no significant difference between groups.</strong></p>
+<p>What do you think?</p>
+<p>The truth is… it is FALSE!</p>
+<p>we define p-value as something that tells us how likely it is that we would see the results we got, if there was actually no effect. With a p-value threshold of 5%, we are accepting a 5% probability of obtaining those results if there are no differences between groups. The ‘trick’ here is that the <strong>p-value does not tell you if H0 is correct or incorrect. It just tells you how probable it is that you got the results you got, if H0 were correct.</strong> The smaller the p-value, the more improbable it is that you got those results if H0 were correct, in other words. Often we take a ‘shortcut’ and say ‘p &lt; 0.05 – we reject the null hypothesis and assume there’s a 5% chance that it is actually correct’. But this is wrong, because the p-value does not inform whether H0 is correct or incorrect, it informs about the probability of obtaining those results from our sample, <strong>if H0 were true.</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>The p-value is NOT the probability that the null hypothesis is true, or the probability that the alternative hypothesis is false.</strong></p></li>
+<li><p><strong>The p-value is not the probability that the observed effects were produced by random chance alone.</strong></p></li>
+<li><p><strong>The p-value is the probability of obtaining the result you got—or an even more extreme one—if the null hypothesis is correct.</strong></p></li>
+</ul>
+</div>
+</div>
+<p>In Summary a p-value helps us understand the <strong>likelihood of our results under the null hypothesis, not the likelihood of the hypothesis itself being true or false.</strong></p>
+</section>
+<section id="answers-of-the-questions-that-we-asked-above" class="level2">
+<h2 class="anchored" data-anchor-id="answers-of-the-questions-that-we-asked-above"><strong>Answers of the Questions that we asked above:</strong></h2>
+<p><strong>There’s a 5% chance that SuperVeggie Juice actually has no effect.</strong></p>
+<p><u><strong>Why it’s wrong:</strong></u> The p-value (p &lt; 0.05) does not tell us the chance that SuperVeggie Juice has no effect. Instead, it tells us that if SuperVeggie Juice had no effect, there is less than a 5% chance we would see these results by random chance alone.</p>
+<p><u><strong>Correct statement:</strong></u> “There is strong evidence that SuperVeggie Juice improves energy levels, with a less than 5% chance that these results are due to random chance.</p>
+<p><strong>There’s a 95% chance that SuperVeggie Juice increases energy levels by 2 to 4 times.</strong></p>
+<p><u><strong>Why it’s wrong:</strong></u> The 95% confidence interval means that if we repeated the study many times, 95% of the time, the true increase in energy levels would fall between 2 and 4 times. It does not mean there’s a 95% chance for the specific study result.</p>
+<p><u><strong>Correct statement:</strong></u> We are 95% confident that SuperVeggie Juice increases energy levels between 2 and 4 times.</p>
+<p><strong>There’s a 95% chance that SuperVeggie Juice actually works.</strong></p>
+<p><u><strong>Why it’s wrong:</strong></u> The confidence interval and p-value do not give the probability that SuperVeggie Juice works. They show evidence of an effect and the range of possible increases in energy levels.</p>
+<p><u><strong>Correct statement:</strong></u> The study shows strong evidence that SuperVeggie Juice works, and we are confident the true increase in energy levels is between 2 and 4 times.</p>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources"><strong>Resources:</strong></h2>
+<ul>
+<li><p><a href="https://www.clinicalkey.com.au/#!/content/playContent/1-s2.0-S0037196308000620?returnurl=https:%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0037196308000620%3Fshowall%3Dtrue&amp;referrer=https:%2F%2Fpubmed.ncbi.nlm.nih.gov%2F"><strong>A Dirty Dozen: Twelve P -Value Misconceptions</strong></a>: dig in deeper into p-value misconceptions with this article.</p></li>
+<li><p><a href="https://www.nature.com/articles/s41433-021-01863-w"><strong>The clinician’s guide to <em>p</em> values, confidence intervals, and magnitude of effects</strong></a>: short Nature paper on p-values and confidence intervals.</p></li>
+<li><p><a href="https://medium.com/@andersongimino/confidence-intervals-correct-and-incorrect-interpretations-bdc76cabbab"><strong>Confidence intervals: Correct and incorrect interpretations</strong></a>: nice, easy 5 min read about confidence intervals with an example.</p></li>
+<li><p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2689604/"><strong>Confidence Interval or P-Values?</strong></a> Article on the meaning and interpretation of these two statistical concepts.</p></li>
+<li><p><a href="https://courses.edx.org/courses/course-v1:HarvardX+PH525.3x+1T2018/0b42cffa7c6e4c559bf74f93fb864a59/"><strong>PH525.3x Advanced Statistics for the Life Sciences on edx</strong></a> by&nbsp;<a href="http://rafalab.github.io/"><strong>Rafael Irizarry</strong></a>.</p></li>
+<li><p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4877414/"><strong>Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations.</strong></a></p></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
+<div>
+
+<hr>
+
+
+
+<p> Thank you for reading this post,If you enjoyed this blog post, then don't miss out on any future posts by subscribing to my email newsletter. </p>
+
+
+
+<iframe src="https://embeds.beehiiv.com/16ea8f24-5081-4a37-a0df-1f2c6db92531" data-test-id="beehiiv-embed" width="400" height="320" frameborder="0" scrolling="no" style="border-radius: 2px; border: 2px solid #e5e7eb; margin: 0; background-color: transparent;">
+
+
+
+</iframe>
+
+
+
+<hr>
+
+</div>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -610,6 +719,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
+</script>
+<script src="https://utteranc.es/client.js" repo="Wajidiqbal1/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 <footer class="footer">
