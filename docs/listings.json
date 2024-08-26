@@ -2,6 +2,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html",
       "/posts/P_value/P_value.html",
       "/posts/Quantifying expression in Single cell/Quantifying_expression_in_single_cell.html",
       "/posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html",

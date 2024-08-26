@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Wajid Iqbal">
+<meta name="description" content="This blog explores how pseudobulking aggregates single-cell data to reduce variability and improve the reliability of differential expression analysis in scRNA-seq studies.">
 
-<title>My Blogs</title>
+<title>Pseudobulking in scRNA-Seq for Differential expression Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,29 +22,47 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,65 +90,7 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories','listing-image','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -145,19 +107,19 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./gallery/gallery.html"> 
+    <a class="nav-link" href="../../gallery/gallery.html"> 
 <span class="menu-text">Gallery</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./posts.html" aria-current="page"> 
+    <a class="nav-link" href="../../posts.html"> 
 <span class="menu-text">Blogs</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -195,26 +157,63 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="DeSeq2">DeSeq2 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Differential Expression">Differential Expression <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Genomics">Genomics <span class="quarto-category-count">(2)</span></div><div class="category" data-category="P-value">P-value <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Quarto">Quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RNAseq">RNAseq <span class="quarto-category-count">(3)</span></div><div class="category" data-category="ScRNA-seq">ScRNA-seq <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Scrnaseq">Scrnaseq <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Seurat">Seurat <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Statistics">Statistics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tidyverse">tidyverse <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#does-cells-from-the-same-sample-behave-independent-of-each-other" id="toc-does-cells-from-the-same-sample-behave-independent-of-each-other" class="nav-link active" data-scroll-target="#does-cells-from-the-same-sample-behave-independent-of-each-other"><strong>Does cells from the same sample behave Independent of Each other ?</strong></a></li>
+  <li><a href="#biological-similarity" id="toc-biological-similarity" class="nav-link" data-scroll-target="#biological-similarity">1. <strong>Biological Similarity:</strong></a></li>
+  <li><a href="#technical-similarity" id="toc-technical-similarity" class="nav-link" data-scroll-target="#technical-similarity">2. <strong>Technical Similarity:</strong></a></li>
+  <li><a href="#statistical-implications" id="toc-statistical-implications" class="nav-link" data-scroll-target="#statistical-implications">3. <strong>Statistical Implications:</strong></a></li>
+  <li><a href="#what-is-pseudobulking" id="toc-what-is-pseudobulking" class="nav-link" data-scroll-target="#what-is-pseudobulking"><strong>What is Pseudobulking?</strong></a></li>
+  <li><a href="#why-performing-pseudo-bulk-analysis" id="toc-why-performing-pseudo-bulk-analysis" class="nav-link" data-scroll-target="#why-performing-pseudo-bulk-analysis"><strong>Why Performing pseudo-bulk analysis ?</strong></a></li>
+  <li><a href="#r-code-example-for-performing-pseudo-bulk-analysis" id="toc-r-code-example-for-performing-pseudo-bulk-analysis" class="nav-link" data-scroll-target="#r-code-example-for-performing-pseudo-bulk-analysis"><strong>R Code example for performing pseudo-bulk analysis:</strong></a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">My Blogs</h1>
-<p class="subtitle lead">Welcome to my personal blog page</p>
+<h1 class="title"><strong>Pseudobulking in scRNA-Seq for Differential expression Analysis</strong></h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Differential Expression</div>
+    <div class="quarto-category">ScRNA-seq</div>
+    <div class="quarto-category">P-value</div>
+    <div class="quarto-category">DeSeq2</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This blog explores how pseudobulking aggregates single-cell data to reduce variability and improve the reliability of differential expression analysis in scRNA-seq studies.
+  </div>
 </div>
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://wajidiqbal1.github.io/wajidiqbal1/">Wajid Iqbal</a> <a href="https://orcid.org/0009-0002-0816-8388" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.iiu.edu.pk/faculties/sciences/department-of-biotechnology-bioinformatics/">
+            International Islamic University, Islamabad
+            </a>
+          </p>
+      </div>
+  </div>
 
+<div class="quarto-title-meta">
 
-<div class="quarto-title-meta column-page-left">
-
-    
+      
   
     
   </div>
@@ -224,252 +223,87 @@ window.Quarto = {
 </header>
 
 
+<section id="does-cells-from-the-same-sample-behave-independent-of-each-other" class="level2">
+<h2 class="anchored" data-anchor-id="does-cells-from-the-same-sample-behave-independent-of-each-other"><strong>Does cells from the same sample behave Independent of Each other ?</strong></h2>
+<p>The advent of single-cell RNA sequencing (scRNA-seq) has revolutionized our ability to dissect cellular heterogeneity within complex tissues, revealing insights that were previously obscured in bulk RNA sequencing. By examining gene expression at the resolution of individual cells, scRNA-seq has uncovered novel biological phenomena with significant implications for understanding disease mechanisms, developmental biology, and therapeutic targets. However, despite the powerful potential of scRNA-seq, differential expression (DE) analysis at the single-cell level presents unique challenges. One effective approach to mitigate these challenges is pseudobulking.</p>
+<p>The process of differential expression so far has been looked at two different ways, the <strong>sample level</strong> where expressions are aggregated to make a <strong>pseudobulks</strong> and then employing the methods for differential expression used in <strong>bulk expression</strong> such as edgeR and Deseq2 while the other way is to look at the <strong>cell-level</strong> view where cells are modeled individually using generalized mixed effect models such as MAST <span class="citation" data-cites="finak2015">(<a href="#ref-finak2015" role="doc-biblioref">Finak et al. 2015</a> )</span> or glmmTMB <span class="citation" data-cites="brooks2017">(<a href="#ref-brooks2017" role="doc-biblioref">Brooks et al. 2017</a>)</span>. But recent studies have come to the conclusion that pseudobulk methods performs best whether sum or mean aggregation works better requires further investigation <span class="citation" data-cites="zimmerman2021">(<a href="#ref-zimmerman2021" role="doc-biblioref">Zimmerman, Espeland, and Langefeld 2021</a>)</span>, <span class="citation" data-cites="murphy2022">(<a href="#ref-murphy2022" role="doc-biblioref">Murphy and Skene 2022</a>)</span>.</p>
+<p>The phrase <strong>“Cells from the same sample are not independent”</strong> refers to the idea that individual cells within a single sample (such as a tissue biopsy or a blood sample) are likely to have correlated or similar gene expression profiles due to shared biological and environmental factors discussed below in detail.</p>
+</section>
+<section id="biological-similarity" class="level2">
+<h2 class="anchored" data-anchor-id="biological-similarity">1. <strong>Biological Similarity:</strong></h2>
+<p><u><strong>Shared Environment:</strong></u> Cells from the same sample originate from the same organism, tissue, or microenvironment. This means they have experienced similar conditions, such as the same nutrient availability, oxygen levels, and signaling molecules, which can influence their gene expression in similar ways.</p>
+<p><u><strong>Common Lineage:</strong></u> In many cases, cells from the same sample may be derived from a common progenitor cell or cell type. This shared lineage can lead to similar expression patterns because the cells have similar differentiation states or functions.</p>
+</section>
+<section id="technical-similarity" class="level2">
+<h2 class="anchored" data-anchor-id="technical-similarity">2. <strong>Technical Similarity:</strong></h2>
+<p><u><strong>Sample Processing:</strong></u> When cells are collected and processed together, they undergo the same technical procedures (e.g., dissociation, RNA extraction, library preparation). These shared technical steps can introduce batch effects, where technical variation is mistaken for biological differences. For example, if a certain gene is consistently upregulated due to the processing method, all cells in that sample might show similar expression of that gene, making them correlated.</p>
+<p><u><strong>Sequencing Batch Effects:</strong></u> If all cells from a sample are sequenced together, they might share sequencing artifacts or biases. This can further reduce their independence in terms of their measured gene expression profiles.</p>
+</section>
+<section id="statistical-implications" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-implications">3. <strong>Statistical Implications:</strong></h2>
+<p><u><strong>Correlation Among Cells:</strong></u> Because of the reasons above, the expression levels of genes in cells from the same sample are likely to be correlated. This correlation violates the assumption of independence that underlies many statistical tests. When cells are treated as independent, these correlations can lead to an overestimation of the significance of observed differences, resulting in artificially small p-values.</p>
+<p><u><strong>False Positives:</strong></u> If cells are treated as independent units, the statistical models might incorrectly identify genes as differentially expressed (false positives), simply because they are capturing the shared variance within a sample, rather than true differences between conditions.</p>
+</section>
+<section id="what-is-pseudobulking" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-pseudobulking"><strong>What is Pseudobulking?</strong></h2>
+<ul>
+<li><p>Pseudobulking is a technique that addresses these challenges by aggregating or averaging gene expression data across multiple cells within a sample, creating a “bulk-like” expression profile for each sample.</p></li>
+<li><p>Instead of treating each cell as an independent observation, pseudobulking considers each sample as the unit of analysis, similar to how bulk RNA-seq data is analyzed.</p></li>
+<li><p>This approach reduces technical noise by averaging out the variability among individual cells and mitigates the issue of non-independence by focusing on differences between samples rather than between cells.</p></li>
+</ul>
+</section>
+<section id="why-performing-pseudo-bulk-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="why-performing-pseudo-bulk-analysis"><strong>Why Performing pseudo-bulk analysis ?</strong></h2>
+<ul>
+<li><p>Single-cell RNAseq data tend to exhibit an abundance of zero counts, a complicated distribution, and huge heterogeneity.</p></li>
+<li><p>The heterogeneity within and between the cell population manifests major challenges to the differential gene expression analysis in scRNAseq data.</p></li>
+<li><p>Single cell methods to identify highly expressed genes as DE exhibit low sensitivity for genes having low expression.</p></li>
+<li><p>Single cell methods can often inflate the p-values as each cell is treated as a sample and if cell are treated as samples, then variation across population is not truly investigated.</p></li>
+</ul>
+</section>
+<section id="r-code-example-for-performing-pseudo-bulk-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="r-code-example-for-performing-pseudo-bulk-analysis"><strong>R Code example for performing pseudo-bulk analysis:</strong></h2>
+<p><a href="files/Pseudobulk_differential_expression.R">The R example code for performing pseudo-bulk analysis can be found here</a>.</p>
 
 
 
+</section>
 
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-date-sort" data-direction="asc">
-          Date - Oldest
-        </option>
-         <option value="listing-date-sort" data-direction="desc">
-          Date - Newest
-        </option>
-         <option value="listing-author" data-direction="asc">
-          Author
-        </option>
-     </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-brooks2017" class="csl-entry" role="listitem">
+Brooks, Mollie,E., Kasper Kristensen, Koen,J.,van Benthem, Arni Magnusson, Casper,W. Berg, Anders Nielsen, Hans,J. Skaug, Martin Mächler, and Benjamin,M. Bolker. 2017. <span>“glmmTMB Balances Speed and Flexibility Among Packages for Zero-Inflated Generalized Linear Mixed Modeling.”</span> <em>The R Journal</em> 9 (2): 378. <a href="https://doi.org/10.32614/rj-2017-066">https://doi.org/10.32614/rj-2017-066</a>.
+</div>
+<div id="ref-finak2015" class="csl-entry" role="listitem">
+Finak, Greg, Andrew McDavid, Masanao Yajima, Jingyuan Deng, Vivian Gersuk, Alex K. Shalek, Chloe K. Slichter, et al. 2015. <span>“MAST: A Flexible Statistical Framework for Assessing Transcriptional Changes and Characterizing Heterogeneity in Single-Cell RNA Sequencing Data.”</span> <em>Genome Biology</em> 16 (1). <a href="https://doi.org/10.1186/s13059-015-0844-5">https://doi.org/10.1186/s13059-015-0844-5</a>.
+</div>
+<div id="ref-murphy2022" class="csl-entry" role="listitem">
+Murphy, Alan E., and Nathan G. Skene. 2022. <span>“A Balanced Measure Shows Superior Performance of Pseudobulk Methods in Single-Cell RNA-Sequencing Analysis.”</span> <em>Nature Communications</em> 13 (1). <a href="https://doi.org/10.1038/s41467-022-35519-4">https://doi.org/10.1038/s41467-022-35519-4</a>.
+</div>
+<div id="ref-zimmerman2021" class="csl-entry" role="listitem">
+Zimmerman, Kip D., Mark A. Espeland, and Carl D. Langefeld. 2021. <span>“A Practical Solution to Pseudoreplication Bias in Single-Cell Studies.”</span> <em>Nature Communications</em> 12 (1). <a href="https://doi.org/10.1038/s41467-021-21038-1">https://doi.org/10.1038/s41467-021-21038-1</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<div>
+
+<hr>
+
+
+
+<p> Thank you for reading this post,If you enjoyed this blog post, then don't miss out on any future posts by subscribing to my email newsletter. </p>
+
+
+
+<iframe src="https://embeds.beehiiv.com/16ea8f24-5081-4a37-a0df-1f2c6db92531" data-test-id="beehiiv-embed" width="400" height="320" frameborder="0" scrolling="no" style="border-radius: 2px; border: 2px solid #e5e7eb; margin: 0; background-color: transparent;">
+
+
+
+</iframe>
+
+
+
+<hr>
+
 </div>
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="Differential Expression,ScRNA-seq,P-value,DeSeq2" data-listing-file-modified-sort="1724679427070" data-listing-reading-time-sort="4" data-listing-word-count-sort="719">
-<div class="thumbnail">
-<p><a href="./posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html" class="no-external"></a></p><a href="./posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html" class="no-external">
-<p><img src="./posts/Pseudo_bulk_expression_analysis/headshot.webp" class="thumbnail-image"></p>
-</a><p><a href="./posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html" class="no-external"><strong>Pseudobulking in scRNA-Seq for Differential expression Analysis</strong></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Differential Expression'); return false;">
-Differential Expression
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ScRNA-seq'); return false;">
-ScRNA-seq
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('P-value'); return false;">
-P-value
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('DeSeq2'); return false;">
-DeSeq2
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html" class="no-external">This blog explores how pseudobulking aggregates single-cell data to reduce variability and improve the reliability of differential expression analysis in scRNA-seq studies.</a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html" class="no-external"></a></p><a href="./posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html" class="no-external">
-<div class="listing-author">
-Wajid Iqbal
-</div>
-<div class="listing-reading-time">
-4 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="Statistics,RNAseq,P-value" data-listing-file-modified-sort="1723726413674" data-listing-reading-time-sort="8" data-listing-word-count-sort="1411">
-<div class="thumbnail">
-<p><a href="./posts/P_value/P_value.html" class="no-external"></a></p><a href="./posts/P_value/P_value.html" class="no-external">
-<p><img src="./posts/P_value/headshot.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/P_value/P_value.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/P_value/P_value.html" class="no-external"><strong>Easy Explanation of P_Value</strong></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/P_value/P_value.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Statistics'); return false;">
-Statistics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('RNAseq'); return false;">
-RNAseq
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('P-value'); return false;">
-P-value
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/P_value/P_value.html" class="no-external">What does p-Value means and what it really means when someone says that p-value was less than 0.05 </a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/P_value/P_value.html" class="no-external"></a></p><a href="./posts/P_value/P_value.html" class="no-external">
-<div class="listing-author">
-Wajid Iqbal
-</div>
-<div class="listing-reading-time">
-8 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="Scrnaseq,RNAseq,Genomics,Seurat" data-listing-file-modified-sort="1722862451958" data-listing-reading-time-sort="24" data-listing-word-count-sort="4679">
-<div class="thumbnail">
-<p><a href="./posts/Quantifying expression in Single cell/Quantifying_expression_in_single_cell.html" class="no-external"></a></p><a href="./posts/Quantifying expression in Single cell/Quantifying_expression_in_single_cell.html" class="no-external">
-<p><img src="./posts/Quantifying expression in Single cell/quantification_icon.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/Quantifying expression in Single cell/Quantifying_expression_in_single_cell.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Quantifying expression in Single cell/Quantifying_expression_in_single_cell.html" class="no-external"><strong>Quantifying Expression in Single Cell</strong></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Quantifying expression in Single cell/Quantifying_expression_in_single_cell.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Scrnaseq'); return false;">
-Scrnaseq
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('RNAseq'); return false;">
-RNAseq
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Genomics'); return false;">
-Genomics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Seurat'); return false;">
-Seurat
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/Quantifying expression in Single cell/Quantifying_expression_in_single_cell.html" class="no-external">Measuring gene expression levels within individual cells.</a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/Quantifying expression in Single cell/Quantifying_expression_in_single_cell.html" class="no-external"></a></p><a href="./posts/Quantifying expression in Single cell/Quantifying_expression_in_single_cell.html" class="no-external">
-<div class="listing-author">
-Wajid Iqbal
-</div>
-<div class="listing-reading-time">
-24 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="Scrnaseq,RNAseq,Genomics,Seurat" data-listing-date-sort="1720652400000" data-listing-file-modified-sort="1722161240336" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="544">
-<div class="thumbnail">
-<p><a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"></a></p><a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external">
-<p><img src="./posts/Beginner_guide_to_single_cell_rnaseq/header.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"><strong>From Average to Highly Specialized: A Beginner guide to Single-Cell RNA-Seq (scRNA-seq)</strong></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Scrnaseq'); return false;">
-Scrnaseq
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('RNAseq'); return false;">
-RNAseq
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Genomics'); return false;">
-Genomics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Seurat'); return false;">
-Seurat
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external">Discover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/Beginner_guide_to_single_cell_rnaseq/Beginner_guide_to_single_cell_rnaseq.html" class="no-external">
-<div class="listing-date">
-Jul 11, 2024
-</div>
-<div class="listing-author">
-Wajid Iqbal
-</div>
-<div class="listing-reading-time">
-3 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="Quarto,R,tidyverse" data-listing-date-sort="1717628400000" data-listing-file-modified-sort="1717662419808" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="263">
-<div class="thumbnail">
-<p><a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external"></a></p><a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external">
-<p><img src="./posts/intro_to_tidyverse/tidylogos-1.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external">Intro_to_tidyverse</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Quarto'); return false;">
-Quarto
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('tidyverse'); return false;">
-tidyverse
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external">A simple intro to the tidverse</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/intro_to_tidyverse/intro_to_tidyverse.html" class="no-external">
-<div class="listing-date">
-Jun 6, 2024
-</div>
-<div class="listing-author">
-Wajid Iqbal
-</div>
-<div class="listing-reading-time">
-2 min
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -878,6 +712,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
+</script>
+<script src="https://utteranc.es/client.js" repo="Wajidiqbal1/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 <footer class="footer">

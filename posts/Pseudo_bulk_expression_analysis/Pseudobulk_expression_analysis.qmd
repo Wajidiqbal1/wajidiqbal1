@@ -1,0 +1,61 @@
+---
+title: "**Pseudobulking in scRNA-Seq for Differential expression Analysis**"
+description: "This blog explores how pseudobulking aggregates single-cell data to reduce variability and improve the reliability of differential expression analysis in scRNA-seq studies."
+author:
+  - name: Wajid Iqbal
+    url: https://wajidiqbal1.github.io/wajidiqbal1/
+    orcid: 0009-0002-0816-8388
+    affiliation: "International Islamic University, Islamabad"
+    affiliation-url: https://www.iiu.edu.pk/faculties/sciences/department-of-biotechnology-bioinformatics/
+categories: [Differential Expression,ScRNA-seq,P-value,DeSeq2]
+image: headshot.webp
+bibliography: references.bib
+---
+
+## **Does cells from the same sample behave Independent of Each other ?**
+
+The advent of single-cell RNA sequencing (scRNA-seq) has revolutionized our ability to dissect cellular heterogeneity within complex tissues, revealing insights that were previously obscured in bulk RNA sequencing. By examining gene expression at the resolution of individual cells, scRNA-seq has uncovered novel biological phenomena with significant implications for understanding disease mechanisms, developmental biology, and therapeutic targets. However, despite the powerful potential of scRNA-seq, differential expression (DE) analysis at the single-cell level presents unique challenges. One effective approach to mitigate these challenges is pseudobulking.
+
+The process of differential expression so far has been looked at two different ways, the **sample level** where expressions are aggregated to make a **pseudobulks** and then employing the methods for differential expression used in **bulk expression** such as edgeR and Deseq2 while the other way is to look at the **cell-level** view where cells are modeled individually using generalized mixed effect models such as MAST [@finak2015 ] or glmmTMB [@brooks2017]. But recent studies have come to the conclusion that pseudobulk methods performs best whether sum or mean aggregation works better requires further investigation [@zimmerman2021], [@murphy2022].
+
+The phrase **"Cells from the same sample are not independent"** refers to the idea that individual cells within a single sample (such as a tissue biopsy or a blood sample) are likely to have correlated or similar gene expression profiles due to shared biological and environmental factors discussed below in detail.
+
+## 1. **Biological Similarity:**
+
+[**Shared Environment:**]{.underline} Cells from the same sample originate from the same organism, tissue, or microenvironment. This means they have experienced similar conditions, such as the same nutrient availability, oxygen levels, and signaling molecules, which can influence their gene expression in similar ways.
+
+[**Common Lineage:**]{.underline} In many cases, cells from the same sample may be derived from a common progenitor cell or cell type. This shared lineage can lead to similar expression patterns because the cells have similar differentiation states or functions.
+
+## 2. **Technical Similarity:**
+
+[**Sample Processing:**]{.underline} When cells are collected and processed together, they undergo the same technical procedures (e.g., dissociation, RNA extraction, library preparation). These shared technical steps can introduce batch effects, where technical variation is mistaken for biological differences. For example, if a certain gene is consistently upregulated due to the processing method, all cells in that sample might show similar expression of that gene, making them correlated.
+
+[**Sequencing Batch Effects:**]{.underline} If all cells from a sample are sequenced together, they might share sequencing artifacts or biases. This can further reduce their independence in terms of their measured gene expression profiles.
+
+## 3. **Statistical Implications:**
+
+[**Correlation Among Cells:**]{.underline} Because of the reasons above, the expression levels of genes in cells from the same sample are likely to be correlated. This correlation violates the assumption of independence that underlies many statistical tests. When cells are treated as independent, these correlations can lead to an overestimation of the significance of observed differences, resulting in artificially small p-values.
+
+[**False Positives:**]{.underline} If cells are treated as independent units, the statistical models might incorrectly identify genes as differentially expressed (false positives), simply because they are capturing the shared variance within a sample, rather than true differences between conditions.
+
+## **What is Pseudobulking?**
+
+-   Pseudobulking is a technique that addresses these challenges by aggregating or averaging gene expression data across multiple cells within a sample, creating a "bulk-like" expression profile for each sample.
+
+-   Instead of treating each cell as an independent observation, pseudobulking considers each sample as the unit of analysis, similar to how bulk RNA-seq data is analyzed.
+
+-   This approach reduces technical noise by averaging out the variability among individual cells and mitigates the issue of non-independence by focusing on differences between samples rather than between cells.
+
+## **Why Performing pseudo-bulk analysis ?**
+
+-   Single-cell RNAseq data tend to exhibit an abundance of zero counts, a complicated distribution, and huge heterogeneity.
+
+-   The heterogeneity within and between the cell population manifests major challenges to the differential gene expression analysis in scRNAseq data.
+
+-   Single cell methods to identify highly expressed genes as DE exhibit low sensitivity for genes having low expression.
+
+-   Single cell methods can often inflate the p-values as each cell is treated as a sample and if cell are treated as samples, then variation across population is not truly investigated.
+
+## **R Code example for performing pseudo-bulk analysis:**
+
+[The R example code for performing pseudo-bulk analysis can be found here](files/Pseudobulk_differential_expression.R).

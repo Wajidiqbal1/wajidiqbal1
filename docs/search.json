@@ -4,7 +4,7 @@
     "href": "posts.html",
     "title": "My Blogs",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nEasy Explanation of P_Value\n\n\n\n\n\n\nStatistics\n\n\nRNAseq\n\n\nP-value\n\n\n\nWhat does p-Value means and what it really means when someone says that p-value was less than 0.05 \n\n\n\n\n\nWajid Iqbal\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nQuantifying Expression in Single Cell\n\n\n\n\n\n\nScrnaseq\n\n\nRNAseq\n\n\nGenomics\n\n\nSeurat\n\n\n\nMeasuring gene expression levels within individual cells.\n\n\n\n\n\nWajid Iqbal\n\n\n24 min\n\n\n\n\n\n\n\n\n\n\n\n\nFrom Average to Highly Specialized: A Beginner guide to Single-Cell RNA-Seq (scRNA-seq)\n\n\n\n\n\n\nScrnaseq\n\n\nRNAseq\n\n\nGenomics\n\n\nSeurat\n\n\n\nDiscover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.\n\n\n\n\n\nJul 11, 2024\n\n\nWajid Iqbal\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nIntro_to_tidyverse\n\n\n\n\n\n\nQuarto\n\n\nR\n\n\ntidyverse\n\n\n\nA simple intro to the tidverse\n\n\n\n\n\nJun 6, 2024\n\n\nWajid Iqbal\n\n\n2 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nPseudobulking in scRNA-Seq for Differential expression Analysis\n\n\n\n\n\n\nDifferential Expression\n\n\nScRNA-seq\n\n\nP-value\n\n\nDeSeq2\n\n\n\nThis blog explores how pseudobulking aggregates single-cell data to reduce variability and improve the reliability of differential expression analysis in scRNA-seq studies.\n\n\n\n\n\nWajid Iqbal\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nEasy Explanation of P_Value\n\n\n\n\n\n\nStatistics\n\n\nRNAseq\n\n\nP-value\n\n\n\nWhat does p-Value means and what it really means when someone says that p-value was less than 0.05 \n\n\n\n\n\nWajid Iqbal\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nQuantifying Expression in Single Cell\n\n\n\n\n\n\nScrnaseq\n\n\nRNAseq\n\n\nGenomics\n\n\nSeurat\n\n\n\nMeasuring gene expression levels within individual cells.\n\n\n\n\n\nWajid Iqbal\n\n\n24 min\n\n\n\n\n\n\n\n\n\n\n\n\nFrom Average to Highly Specialized: A Beginner guide to Single-Cell RNA-Seq (scRNA-seq)\n\n\n\n\n\n\nScrnaseq\n\n\nRNAseq\n\n\nGenomics\n\n\nSeurat\n\n\n\nDiscover the transformative power of single-cell RNA sequencing (scRNA-seq) and how it unveils the hidden complexities of cellular heterogeneity, moving beyond average gene expression to highly specialized insights at the single-cell level.\n\n\n\n\n\nJul 11, 2024\n\n\nWajid Iqbal\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nIntro_to_tidyverse\n\n\n\n\n\n\nQuarto\n\n\nR\n\n\ntidyverse\n\n\n\nA simple intro to the tidverse\n\n\n\n\n\nJun 6, 2024\n\n\nWajid Iqbal\n\n\n2 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/P_value/P_value.html",
@@ -229,5 +229,61 @@
     "title": "Easy Explanation of P_Value",
     "section": "Resources:",
     "text": "Resources:\n\nA Dirty Dozen: Twelve P -Value Misconceptions: dig in deeper into p-value misconceptions with this article.\nThe clinician’s guide to p values, confidence intervals, and magnitude of effects: short Nature paper on p-values and confidence intervals.\nConfidence intervals: Correct and incorrect interpretations: nice, easy 5 min read about confidence intervals with an example.\nConfidence Interval or P-Values? Article on the meaning and interpretation of these two statistical concepts.\nPH525.3x Advanced Statistics for the Life Sciences on edx by Rafael Irizarry.\nStatistical tests, P values, confidence intervals, and power: a guide to misinterpretations."
+  },
+  {
+    "objectID": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html",
+    "href": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html",
+    "title": "Pseudobulking in scRNA-Seq for Differential expression Analysis",
+    "section": "",
+    "text": "The advent of single-cell RNA sequencing (scRNA-seq) has revolutionized our ability to dissect cellular heterogeneity within complex tissues, revealing insights that were previously obscured in bulk RNA sequencing. By examining gene expression at the resolution of individual cells, scRNA-seq has uncovered novel biological phenomena with significant implications for understanding disease mechanisms, developmental biology, and therapeutic targets. However, despite the powerful potential of scRNA-seq, differential expression (DE) analysis at the single-cell level presents unique challenges. One effective approach to mitigate these challenges is pseudobulking.\nThe process of differential expression so far has been looked at two different ways, the sample level where expressions are aggregated to make a pseudobulks and then employing the methods for differential expression used in bulk expression such as edgeR and Deseq2 while the other way is to look at the cell-level view where cells are modeled individually using generalized mixed effect models such as MAST (Finak et al. 2015 ) or glmmTMB (Brooks et al. 2017). But recent studies have come to the conclusion that pseudobulk methods performs best whether sum or mean aggregation works better requires further investigation (Zimmerman, Espeland, and Langefeld 2021), (Murphy and Skene 2022).\nThe phrase “Cells from the same sample are not independent” refers to the idea that individual cells within a single sample (such as a tissue biopsy or a blood sample) are likely to have correlated or similar gene expression profiles due to shared biological and environmental factors discussed below in detail."
+  },
+  {
+    "objectID": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#does-cells-from-the-same-sample-behave-independent-of-each-other",
+    "href": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#does-cells-from-the-same-sample-behave-independent-of-each-other",
+    "title": "Pseudobulking in scRNA-Seq for Differential expression Analysis",
+    "section": "",
+    "text": "The advent of single-cell RNA sequencing (scRNA-seq) has revolutionized our ability to dissect cellular heterogeneity within complex tissues, revealing insights that were previously obscured in bulk RNA sequencing. By examining gene expression at the resolution of individual cells, scRNA-seq has uncovered novel biological phenomena with significant implications for understanding disease mechanisms, developmental biology, and therapeutic targets. However, despite the powerful potential of scRNA-seq, differential expression (DE) analysis at the single-cell level presents unique challenges. One effective approach to mitigate these challenges is pseudobulking.\nThe process of differential expression so far has been looked at two different ways, the sample level where expressions are aggregated to make a pseudobulks and then employing the methods for differential expression used in bulk expression such as edgeR and Deseq2 while the other way is to look at the cell-level view where cells are modeled individually using generalized mixed effect models such as MAST (Finak et al. 2015 ) or glmmTMB (Brooks et al. 2017). But recent studies have come to the conclusion that pseudobulk methods performs best whether sum or mean aggregation works better requires further investigation (Zimmerman, Espeland, and Langefeld 2021), (Murphy and Skene 2022).\nThe phrase “Cells from the same sample are not independent” refers to the idea that individual cells within a single sample (such as a tissue biopsy or a blood sample) are likely to have correlated or similar gene expression profiles due to shared biological and environmental factors discussed below in detail."
+  },
+  {
+    "objectID": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#biological-similarity",
+    "href": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#biological-similarity",
+    "title": "Pseudobulking in scRNA-Seq for Differential expression Analysis",
+    "section": "1. Biological Similarity:",
+    "text": "1. Biological Similarity:\nShared Environment: Cells from the same sample originate from the same organism, tissue, or microenvironment. This means they have experienced similar conditions, such as the same nutrient availability, oxygen levels, and signaling molecules, which can influence their gene expression in similar ways.\nCommon Lineage: In many cases, cells from the same sample may be derived from a common progenitor cell or cell type. This shared lineage can lead to similar expression patterns because the cells have similar differentiation states or functions."
+  },
+  {
+    "objectID": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#technical-similarity",
+    "href": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#technical-similarity",
+    "title": "Pseudobulking in scRNA-Seq for Differential expression Analysis",
+    "section": "2. Technical Similarity:",
+    "text": "2. Technical Similarity:\nSample Processing: When cells are collected and processed together, they undergo the same technical procedures (e.g., dissociation, RNA extraction, library preparation). These shared technical steps can introduce batch effects, where technical variation is mistaken for biological differences. For example, if a certain gene is consistently upregulated due to the processing method, all cells in that sample might show similar expression of that gene, making them correlated.\nSequencing Batch Effects: If all cells from a sample are sequenced together, they might share sequencing artifacts or biases. This can further reduce their independence in terms of their measured gene expression profiles."
+  },
+  {
+    "objectID": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#statistical-implications",
+    "href": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#statistical-implications",
+    "title": "Pseudobulking in scRNA-Seq for Differential expression Analysis",
+    "section": "3. Statistical Implications:",
+    "text": "3. Statistical Implications:\nCorrelation Among Cells: Because of the reasons above, the expression levels of genes in cells from the same sample are likely to be correlated. This correlation violates the assumption of independence that underlies many statistical tests. When cells are treated as independent, these correlations can lead to an overestimation of the significance of observed differences, resulting in artificially small p-values.\nFalse Positives: If cells are treated as independent units, the statistical models might incorrectly identify genes as differentially expressed (false positives), simply because they are capturing the shared variance within a sample, rather than true differences between conditions."
+  },
+  {
+    "objectID": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#what-is-pseudobulking",
+    "href": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#what-is-pseudobulking",
+    "title": "Pseudobulking in scRNA-Seq for Differential expression Analysis",
+    "section": "What is Pseudobulking?",
+    "text": "What is Pseudobulking?\n\nPseudobulking is a technique that addresses these challenges by aggregating or averaging gene expression data across multiple cells within a sample, creating a “bulk-like” expression profile for each sample.\nInstead of treating each cell as an independent observation, pseudobulking considers each sample as the unit of analysis, similar to how bulk RNA-seq data is analyzed.\nThis approach reduces technical noise by averaging out the variability among individual cells and mitigates the issue of non-independence by focusing on differences between samples rather than between cells."
+  },
+  {
+    "objectID": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#why-performing-pseudo-bulk-analysis",
+    "href": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#why-performing-pseudo-bulk-analysis",
+    "title": "Pseudobulking in scRNA-Seq for Differential expression Analysis",
+    "section": "Why Performing pseudo-bulk analysis ?",
+    "text": "Why Performing pseudo-bulk analysis ?\n\nSingle-cell RNAseq data tend to exhibit an abundance of zero counts, a complicated distribution, and huge heterogeneity.\nThe heterogeneity within and between the cell population manifests major challenges to the differential gene expression analysis in scRNAseq data.\nSingle cell methods to identify highly expressed genes as DE exhibit low sensitivity for genes having low expression.\nSingle cell methods can often inflate the p-values as each cell is treated as a sample and if cell are treated as samples, then variation across population is not truly investigated."
+  },
+  {
+    "objectID": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#r-code-example-for-performing-pseudo-bulk-analysis",
+    "href": "posts/Pseudo_bulk_expression_analysis/Pseudobulk_expression_analysis.html#r-code-example-for-performing-pseudo-bulk-analysis",
+    "title": "Pseudobulking in scRNA-Seq for Differential expression Analysis",
+    "section": "R Code example for performing pseudo-bulk analysis:",
+    "text": "R Code example for performing pseudo-bulk analysis:\nThe R example code for performing pseudo-bulk analysis can be found here."
   }
 ]
